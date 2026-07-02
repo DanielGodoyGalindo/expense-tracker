@@ -1,4 +1,5 @@
 import './App.css'
+import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList'
 import type { Transaction } from './types/transaction';
 
@@ -30,6 +31,7 @@ function App() {
 
   return (
     <>
+      <TransactionForm />
       <TransactionList transactions={transactions} />
     </>
   )

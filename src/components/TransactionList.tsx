@@ -7,7 +7,7 @@ type Props = {
 
 function TransactionList({ transactions }: Props) {
   return (
-    <div>
+    <div className="flex flex-col justify-center">
       {transactions.map((transaction) => (
         <TransactionItem
           key={transaction.id}
