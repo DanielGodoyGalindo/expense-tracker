@@ -27,7 +27,7 @@ function App() {
       date: "2026-07-03",
     },
   ];
-  
+
   return (
     <>
       <TransactionList transactions={transactions} />

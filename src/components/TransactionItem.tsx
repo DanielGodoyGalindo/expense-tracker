@@ -6,7 +6,7 @@ type Props = {
 
 function TransactionItem({ transaction }: Props) {
   return (
-    <div>
+    <div className="flex-col place-self-center border-3 min-w-1/6 p-2 border-blue-400 m-2 text-center">
       <h3>{transaction.title}</h3>
       <p>{transaction.amount} €</p>
       <p>{transaction.category}</p>
