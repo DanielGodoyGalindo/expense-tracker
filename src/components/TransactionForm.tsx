@@ -1,8 +1,11 @@
 import { useState } from "react";
 import type { Transaction } from "../types/transaction";
 
-function TransactionForm() {
+type Props = {
+  onAddTransaction: (transaction: Transaction) => void;
+};
 
+function TransactionForm({ onAddTransaction }: Props) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("food");
@@ -12,7 +15,8 @@ function TransactionForm() {
     setCategory(event.target.value);
   }
 
-  function handleSubmit() {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
     const transaction: Transaction = {
       id: crypto.randomUUID(),
       title,
@@ -20,7 +24,11 @@ function TransactionForm() {
       category: category as Transaction["category"],
       date,
     };
-    console.log(`${transaction.title} created!`);
+    onAddTransaction(transaction);
+    setTitle("");
+    setAmount("");
+    setCategory("food");
+    setDate("");
   }
 
   return (
