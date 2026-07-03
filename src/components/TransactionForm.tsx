@@ -17,6 +17,10 @@ function TransactionForm({ onAddTransaction }: Props) {
 
   function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!title || !amount || !date) {
+      alert("Please fill in all fields.");
+      return;
+    }
     const transaction: Transaction = {
       id: crypto.randomUUID(),
       title,
