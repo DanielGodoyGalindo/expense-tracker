@@ -21,35 +21,39 @@ function TransactionForm({ onAddTransaction }: Props) {
       alert("Please fill in all fields.");
       return;
     }
-    const transaction: Transaction = {
-      id: crypto.randomUUID(),
-      title,
-      amount: Number(amount),
-      category: category as Transaction["category"],
-      date,
-    };
-    onAddTransaction(transaction);
-    setTitle("");
-    setAmount("");
-    setCategory("food");
-    setDate("");
+    try {
+      const transaction: Transaction = {
+        id: crypto.randomUUID(),
+        title,
+        amount: Number(amount),
+        category: category as Transaction["category"],
+        date,
+      };
+      onAddTransaction(transaction);
+      setTitle("");
+      setAmount("");
+      setCategory("food");
+      setDate("");
+    } catch (error) {
+      alert(`Not able to create transaction. Error: ${error}`)
+    }
   }
 
   return (
     <div className="place-self-center">
       <h1>Add your Expense / Income</h1>
       <form className="flex flex-col gap-6 justify-center place-self-center shadow-2xl border-2 border-indigo-900 rounded-lg p-2" onSubmit={handleSubmit}>
-        <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required/>
 
-        <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+        <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} required/>
 
-        <select value={category} onChange={handleCategory}>
+        <select value={category} onChange={handleCategory} required>
           <option>Food</option>
           <option>Leisure</option>
           <option>Payroll</option>
         </select>
 
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required/>
 
         <button type="submit" className="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 border border-black rounded"> Add transaction </button>
       </form>
