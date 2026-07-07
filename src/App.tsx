@@ -22,10 +22,16 @@ function App() {
     setTransactions((prev) => [...prev, transaction]);
   };
 
+  const deleteTransaction = (id: string) => {
+    setTransactions((prev) =>
+      prev.filter((transaction) => transaction.id !== id)
+    );
+  };
+
   return (
     <>
       <TransactionForm onAddTransaction={addTransaction} />
-      <TransactionList transactions={transactions} />
+      <TransactionList transactions={transactions} onDeleteTransaction={deleteTransaction}/>
     </>
   )
 }
