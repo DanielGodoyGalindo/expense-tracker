@@ -48,8 +48,8 @@ function TransactionForm({ onAddTransaction }: Props) {
         <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} required/>
 
         <select value={category} onChange={handleCategory} required>
-          <option>Expense</option>
-          <option>Income</option>
+          <option>expense</option>
+          <option>income</option>
         </select>
 
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required/>

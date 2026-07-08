@@ -3,6 +3,7 @@ import './App.css'
 import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList'
 import type { Transaction } from './types/transaction';
+import Balance from './components/Balance';
 
 function App() {
 
@@ -30,8 +31,11 @@ function App() {
 
   return (
     <>
-      <TransactionForm onAddTransaction={addTransaction} />
-      <TransactionList transactions={transactions} onDeleteTransaction={deleteTransaction}/>
+      <div className='flex flex-col gap-12'>
+        <Balance transactions={transactions}/>
+        <TransactionForm onAddTransaction={addTransaction} />
+        <TransactionList transactions={transactions} onDeleteTransaction={deleteTransaction} />
+      </div>
     </>
   )
 }
