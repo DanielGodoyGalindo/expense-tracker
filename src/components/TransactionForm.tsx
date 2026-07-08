@@ -8,7 +8,7 @@ type Props = {
 function TransactionForm({ onAddTransaction }: Props) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("food");
+  const [category, setCategory] = useState("expense");
   const [date, setDate] = useState("");
 
   function handleCategory(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -32,7 +32,7 @@ function TransactionForm({ onAddTransaction }: Props) {
       onAddTransaction(transaction);
       setTitle("");
       setAmount("");
-      setCategory("food");
+      setCategory("expense");
       setDate("");
     } catch (error) {
       alert(`Not able to create transaction. Error: ${error}`)
@@ -48,9 +48,8 @@ function TransactionForm({ onAddTransaction }: Props) {
         <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} required/>
 
         <select value={category} onChange={handleCategory} required>
-          <option>Food</option>
-          <option>Leisure</option>
-          <option>Payroll</option>
+          <option>Expense</option>
+          <option>Income</option>
         </select>
 
         <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required/>
