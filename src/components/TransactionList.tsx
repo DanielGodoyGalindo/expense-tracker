@@ -8,7 +8,8 @@ type Props = {
 
 function TransactionList({ transactions, onDeleteTransaction }: Props) {
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center p-6">
+      <p className="flex justify-center underline">Transaction list</p>
       {transactions.map((transaction) => (
         <TransactionItem
           key={transaction.id}

@@ -16,7 +16,7 @@ function Balance({ transactions }: Props) {
 
   return (
     <div
-      className={`place-self-center flex gap-1 border-3 rounded-xl p-2 ${balance < 0 ? "border-red-600" : "border-green-600"} mt-3 text-2xl`}>
+      className={`place-self-center flex gap-1 border-4 rounded-xl p-2 ${balance < 0 ? "border-red-600" : "border-green-600"} mt-3 text-4xl`}>
       <p>Your balance:</p>
       <p>{balance} €</p>
     </div>

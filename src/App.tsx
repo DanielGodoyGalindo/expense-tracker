@@ -30,14 +30,27 @@ function App() {
   };
 
   return (
-    <>
-      <div className='flex flex-col gap-12'>
-        <Balance transactions={transactions}/>
-        <TransactionForm onAddTransaction={addTransaction} />
-        <TransactionList transactions={transactions} onDeleteTransaction={deleteTransaction} />
+    <div className="flex flex-col gap-8 p-4 min-h-screen">
+
+      <h1 className="text-6xl text-center">Expense Tracker</h1>
+
+      <div className="flex w-full justify-center gap-8">
+
+        <div className="flex flex-col w-1/3 p-4 rounded-lg gap-24 justify-center">
+          <Balance transactions={transactions} />
+          <TransactionForm onAddTransaction={addTransaction} />
+        </div>
+
+        <div className="w-1/3 bg-blue-100 rounded-lg">
+          <TransactionList
+            transactions={transactions}
+            onDeleteTransaction={deleteTransaction}
+          />
+        </div>
+
       </div>
-    </>
-  )
+    </div>
+  );
 }
 
 export default App

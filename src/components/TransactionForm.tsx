@@ -40,8 +40,8 @@ function TransactionForm({ onAddTransaction }: Props) {
   }
 
   return (
-    <div className="place-self-center">
-      <h1>Add your Expense / Income</h1>
+    <div className="place-self-center flex flex-col gap-2">
+      <h1 className="underline">Add your expense / income</h1>
       <form className="flex flex-col gap-6 justify-center place-self-center shadow-2xl border-2 border-indigo-900 rounded-lg p-2" onSubmit={handleSubmit}>
         <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required/>
 
