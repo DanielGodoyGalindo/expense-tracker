@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
 import './App.css'
+import { useState, useEffect } from 'react';
+import type { Transaction } from './types/transaction';
 import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList'
-import type { Transaction } from './types/transaction';
 import Balance from './components/Balance';
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
           <TransactionForm onAddTransaction={addTransaction} />
         </div>
 
-        <div className="w-1/3 bg-blue-100 rounded-lg">
+        <div className="w-1/3 rounded-lg">
           <TransactionList
             transactions={transactions}
             onDeleteTransaction={deleteTransaction}

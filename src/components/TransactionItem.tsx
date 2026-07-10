@@ -7,13 +7,13 @@ type Props = {
 
 function TransactionItem({ transaction, onDeleteTransaction }: Props) {
   return (
-    <div className="flex flex-col place-self-center border-4 w-1/6 p-2 border-indigo-900 m-2 text-center rounded-lg shadow">
-      <h3>{transaction.title}</h3>
-      <p>{transaction.amount} €</p>
-      <p>{transaction.category}</p>
-      <p>{transaction.date}</p>
-      <button onClick={() => onDeleteTransaction(transaction.id)} className="text-red-600 hover:cursor-pointer hover:underline">Delete</button>
-    </div>
+    <tr className="text-center odd:bg-indigo-50 even:bg-indigo-100 h-12">
+      <td>{transaction.title}</td>  
+      <td>{transaction.amount} €</td>
+      <td>{transaction.category}</td>
+      <td>{transaction.date}</td>
+      <td><button onClick={() => onDeleteTransaction(transaction.id)} className="text-red-600 hover:cursor-pointer hover:underline">Delete</button></td>
+    </tr>
   );
 }
 
