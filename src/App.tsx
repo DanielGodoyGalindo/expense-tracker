@@ -4,6 +4,7 @@ import type { Transaction } from './types/transaction';
 import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList'
 import Balance from './components/Balance';
+import OneLevelPieChart from './components/BalanceChart';
 
 function App() {
 
@@ -36,9 +37,10 @@ function App() {
 
       <div className="flex w-full justify-center gap-8">
 
-        <div className="flex flex-col w-1/3 p-4 rounded-lg gap-24 justify-center">
-          <Balance transactions={transactions} />
+        <div className="flex flex-col w-1/3 p-4 rounded-lg gap-12 justify-center">
           <TransactionForm onAddTransaction={addTransaction} />
+          <Balance transactions={transactions} />
+          <OneLevelPieChart transactions={transactions} />
         </div>
 
         <div className="w-1/3 rounded-lg">
