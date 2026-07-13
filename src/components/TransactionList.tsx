@@ -47,27 +47,33 @@ function TransactionList({ transactions, onDeleteTransaction }: Props) {
         </tbody>
       </table>
 
-      <div className="flex justify-center items-center gap-4">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage((prev) => prev - 1)}
-          className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50">
-          Previous
-        </button>
 
-        <span className="items-center">
-          Page {currentPage} of {totalPages}
-        </span>
+      {transactions.length === 0 ? (
+        <p className="text-center text-gray-500">
+          No transactions yet.
+        </p>
+      ) : (
+        < div className="flex justify-center items-center gap-4">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+            className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50">
+            Previous
+          </button>
 
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((prev) => prev + 1)}
-          className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
-    </div>
+          <span className="items-center">
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+            className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50">
+            Next
+          </button>
+        </div>)
+      }
+    </div >
   );
 }
 
