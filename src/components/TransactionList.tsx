@@ -1,6 +1,6 @@
 import TransactionItem from "./TransactionItem";
 import type { Transaction } from "../types/transaction";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type Props = {
   transactions: Transaction[];
@@ -8,89 +8,171 @@ type Props = {
 };
 
 function TransactionList({ transactions, onDeleteTransaction }: Props) {
+  const today = new Date();
+
   const [currentPage, setCurrentPage] = useState(1);
-  
+  const [selectedMonth, setSelectedMonth] = useState(String(today.getMonth() + 1).padStart(2, "0"));
+  const [selectedYear, setSelectedYear] = useState(String(today.getFullYear()));
+
   const itemsPerPage = 5;
+
+  const months = [
+    { name: "January", value: "01" },
+    { name: "February", value: "02" },
+    { name: "March", value: "03" },
+    { name: "April", value: "04" },
+    { name: "May", value: "05" },
+    { name: "June", value: "06" },
+    { name: "July", value: "07" },
+    { name: "August", value: "08" },
+    { name: "September", value: "09" },
+    { name: "October", value: "10" },
+    { name: "November", value: "11" },
+    { name: "December", value: "12" },
+  ];
+
+  const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
+
+  useEffect(() => {
+    if (transactions.length > 0 && !years.includes(selectedYear)) {
+      setSelectedYear(years[0]);
+    }
+  }, [transactions]);
+
+  const filteredTransactions = transactions.filter((transaction) => {
+    const transactionYear = transaction.date.slice(0, 4);
+    const transactionMonth = transaction.date.slice(5, 7);
+
+    return (
+      transactionYear === selectedYear &&
+      transactionMonth === selectedMonth
+    );
+  });
+
   const indexOfLastTransaction = currentPage * itemsPerPage;
   const indexOfFirstTransaction = indexOfLastTransaction - itemsPerPage;
-  const currentTransactions = transactions.slice(
+
+  const currentTransactions = filteredTransactions.slice(
     indexOfFirstTransaction,
     indexOfLastTransaction
   );
-  const totalPages = Math.ceil(transactions.length / itemsPerPage);
-  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-  const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
-  
+
+  const totalPages = Math.max(1, Math.ceil(filteredTransactions.length / itemsPerPage));
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedMonth, selectedYear]);
+
 
   return (
     <div className="flex flex-col justify-center p-6 gap-4">
+
       <p className="flex justify-center underline">
         Transaction list
       </p>
 
+
       {/* Month and year selectors */}
       <div className="flex gap-2">
         <span>Month</span>
-        <select className="border">
-          {months.map(m => <option key={m}>{m}</option>)}
+
+        <select
+          className="border"
+          value={selectedMonth}
+          onChange={(e) => setSelectedMonth(e.target.value)}
+        >
+          {months.map((month) => (
+            <option
+              key={month.value}
+              value={month.value}
+            >
+              {month.name}
+            </option>
+          ))}
         </select>
+
+
         <span>Year</span>
-        <select className="border">
+
+        <select
+          className="border"
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(e.target.value)}
+        >
           {years.map((year) => (
-            <option key={year}>{year}</option>
+            <option
+              key={year}
+              value={year}
+            >
+              {year}
+            </option>
           ))}
         </select>
       </div>
 
-      <table className="table-fixed w-full">
-        <thead>
-          <tr className="h-12">
-            <th>Title</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Date</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          {currentTransactions.map((transaction) => (
-            <TransactionItem
-              key={transaction.id}
-              transaction={transaction}
-              onDeleteTransaction={onDeleteTransaction}
-            />
-          ))}
-        </tbody>
-      </table>
+      {currentTransactions.length === 0 ? (
 
-
-      {transactions.length === 0 ? (
         <p className="text-center text-gray-500">
-          No transactions yet.
+          No transactions for this period.
         </p>
+
       ) : (
-        < div className="flex justify-center items-center gap-4">
+
+        <table className="table-fixed w-full">
+          <thead>
+            <tr className="h-12">
+              <th>Title</th>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {currentTransactions.map((transaction) => (
+              <TransactionItem
+                key={transaction.id}
+                transaction={transaction}
+                onDeleteTransaction={onDeleteTransaction}
+              />
+            ))}
+          </tbody>
+        </table>
+
+      )}
+
+
+      {filteredTransactions.length > 0 && (
+        <div className="flex justify-center items-center gap-4">
+
           <button
             disabled={currentPage === 1}
             onClick={() => setCurrentPage((prev) => prev - 1)}
-            className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50">
+            className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50"
+          >
             Previous
           </button>
 
-          <span className="items-center">
+
+          <span className="flex items-center">
             Page {currentPage} of {totalPages}
           </span>
+
 
           <button
             disabled={currentPage === totalPages}
             onClick={() => setCurrentPage((prev) => prev + 1)}
-            className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50">
+            className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50"
+          >
             Next
           </button>
-        </div>)
-      }
-    </div >
+
+        </div>
+      )}
+
+    </div>
   );
 }
 
