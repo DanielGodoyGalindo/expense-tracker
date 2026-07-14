@@ -9,6 +9,7 @@ type Props = {
 
 function TransactionList({ transactions, onDeleteTransaction }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
+  
   const itemsPerPage = 5;
   const indexOfLastTransaction = currentPage * itemsPerPage;
   const indexOfFirstTransaction = indexOfLastTransaction - itemsPerPage;
@@ -16,14 +17,30 @@ function TransactionList({ transactions, onDeleteTransaction }: Props) {
     indexOfFirstTransaction,
     indexOfLastTransaction
   );
-
   const totalPages = Math.ceil(transactions.length / itemsPerPage);
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
+  
 
   return (
     <div className="flex flex-col justify-center p-6 gap-4">
       <p className="flex justify-center underline">
         Transaction list
       </p>
+
+      {/* Month and year selectors */}
+      <div className="flex gap-2">
+        <span>Month</span>
+        <select className="border">
+          {months.map(m => <option key={m}>{m}</option>)}
+        </select>
+        <span>Year</span>
+        <select className="border">
+          {years.map((year) => (
+            <option key={year}>{year}</option>
+          ))}
+        </select>
+      </div>
 
       <table className="table-fixed w-full">
         <thead>
