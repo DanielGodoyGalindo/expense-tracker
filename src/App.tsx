@@ -30,6 +30,19 @@ function App() {
     );
   };
 
+  const today = new Date();
+  const [selectedMonth, setSelectedMonth] = useState(String(today.getMonth() + 1).padStart(2, "0"));
+  const [selectedYear, setSelectedYear] = useState(String(today.getFullYear()));
+  const filteredTransactions = transactions.filter((transaction) => {
+    const year = transaction.date.slice(0, 4);
+    const month = transaction.date.slice(5, 7);
+
+    return (
+      year === selectedYear &&
+      month === selectedMonth
+    );
+  });
+
   return (
     <div className="flex flex-col gap-8 p-4 min-h-screen">
 
@@ -39,13 +52,17 @@ function App() {
 
         <div className="flex flex-col w-1/3 p-4 rounded-lg gap-12 justify-center">
           <TransactionForm onAddTransaction={addTransaction} />
-          <Balance transactions={transactions} />
+          <Balance transactions={filteredTransactions} />
           <OneLevelPieChart transactions={transactions} />
         </div>
 
         <div className="w-1/3 rounded-lg">
           <TransactionList
-            transactions={transactions}
+            transactions={filteredTransactions}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            setSelectedMonth={setSelectedMonth}
+            setSelectedYear={setSelectedYear}
             onDeleteTransaction={deleteTransaction}
           />
         </div>

@@ -4,18 +4,17 @@ import { useState, useEffect } from "react";
 
 type Props = {
   transactions: Transaction[];
+  selectedMonth: string;
+  selectedYear: string;
+  setSelectedMonth: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
   onDeleteTransaction: (id: string) => void;
 };
 
-function TransactionList({ transactions, onDeleteTransaction }: Props) {
-  const today = new Date();
-
+function TransactionList({ transactions, selectedMonth, selectedYear, setSelectedMonth, setSelectedYear, onDeleteTransaction }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedMonth, setSelectedMonth] = useState(String(today.getMonth() + 1).padStart(2, "0"));
-  const [selectedYear, setSelectedYear] = useState(String(today.getFullYear()));
-
   const itemsPerPage = 5;
-
+  const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
   const months = [
     { name: "January", value: "01" },
     { name: "February", value: "02" },
@@ -30,25 +29,24 @@ function TransactionList({ transactions, onDeleteTransaction }: Props) {
     { name: "November", value: "11" },
     { name: "December", value: "12" },
   ];
-
-  const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
-
+  
+  
   useEffect(() => {
     if (transactions.length > 0 && !years.includes(selectedYear)) {
       setSelectedYear(years[0]);
     }
   }, [transactions]);
-
+  
   const filteredTransactions = transactions.filter((transaction) => {
     const transactionYear = transaction.date.slice(0, 4);
     const transactionMonth = transaction.date.slice(5, 7);
-
+    
     return (
       transactionYear === selectedYear &&
       transactionMonth === selectedMonth
     );
   });
-
+  
   const indexOfLastTransaction = currentPage * itemsPerPage;
   const indexOfFirstTransaction = indexOfLastTransaction - itemsPerPage;
 
@@ -74,36 +72,20 @@ function TransactionList({ transactions, onDeleteTransaction }: Props) {
 
       {/* Month and year selectors */}
       <div className="flex gap-2">
-        <span>Month</span>
 
-        <select
-          className="border"
-          value={selectedMonth}
-          onChange={(e) => setSelectedMonth(e.target.value)}
-        >
+        <span>Month</span>
+        <select className="border" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
           {months.map((month) => (
-            <option
-              key={month.value}
-              value={month.value}
-            >
+            <option key={month.value} value={month.value}>
               {month.name}
             </option>
           ))}
         </select>
 
-
         <span>Year</span>
-
-        <select
-          className="border"
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(e.target.value)}
-        >
+        <select className="border" value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
           {years.map((year) => (
-            <option
-              key={year}
-              value={year}
-            >
+            <option key={year} value={year}>
               {year}
             </option>
           ))}
@@ -129,7 +111,6 @@ function TransactionList({ transactions, onDeleteTransaction }: Props) {
               <th>Delete</th>
             </tr>
           </thead>
-
           <tbody>
             {currentTransactions.map((transaction) => (
               <TransactionItem
@@ -140,7 +121,6 @@ function TransactionList({ transactions, onDeleteTransaction }: Props) {
             ))}
           </tbody>
         </table>
-
       )}
 
 
@@ -150,28 +130,23 @@ function TransactionList({ transactions, onDeleteTransaction }: Props) {
           <button
             disabled={currentPage === 1}
             onClick={() => setCurrentPage((prev) => prev - 1)}
-            className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50"
-          >
+            className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50">
             Previous
           </button>
-
 
           <span className="flex items-center">
             Page {currentPage} of {totalPages}
           </span>
 
-
           <button
             disabled={currentPage === totalPages}
             onClick={() => setCurrentPage((prev) => prev + 1)}
-            className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50"
-          >
+            className="bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50">
             Next
           </button>
 
         </div>
       )}
-
     </div>
   );
 }
