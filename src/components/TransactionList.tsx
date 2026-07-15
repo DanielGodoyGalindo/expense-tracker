@@ -29,24 +29,24 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
     { name: "November", value: "11" },
     { name: "December", value: "12" },
   ];
-  
-  
+
+
   useEffect(() => {
     if (transactions.length > 0 && !years.includes(selectedYear)) {
       setSelectedYear(years[0]);
     }
   }, [transactions]);
-  
+
   const filteredTransactions = transactions.filter((transaction) => {
     const transactionYear = transaction.date.slice(0, 4);
     const transactionMonth = transaction.date.slice(5, 7);
-    
+
     return (
       transactionYear === selectedYear &&
       transactionMonth === selectedMonth
     );
   });
-  
+
   const indexOfLastTransaction = currentPage * itemsPerPage;
   const indexOfFirstTransaction = indexOfLastTransaction - itemsPerPage;
 
@@ -71,32 +71,36 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
 
 
       {/* Month and year selectors */}
-      <div className="flex gap-2">
+      <div className="flex justify-center gap-8">
 
-        <span>Month</span>
-        <select className="border" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
-          {months.map((month) => (
-            <option key={month.value} value={month.value}>
-              {month.name}
-            </option>
-          ))}
-        </select>
+        <div className="flex gap-2">
+          <span>Month</span>
+          <select className="border" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
+            {months.map((month) => (
+              <option key={month.value} value={month.value}>
+                {month.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <span>Year</span>
-        <select className="border" value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
+        <div className="flex gap-2">
+          <span>Year</span>
+          <select className="border" value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
+            {years.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
 
       {currentTransactions.length === 0 ? (
 
         <p className="text-center text-gray-500">
-          No transactions for this period.
+          No transactions found for this period
         </p>
 
       ) : (

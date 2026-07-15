@@ -53,7 +53,7 @@ function App() {
         <div className="flex flex-col w-1/3 p-4 rounded-lg gap-12 justify-center">
           <TransactionForm onAddTransaction={addTransaction} />
           <Balance transactions={filteredTransactions} />
-          <OneLevelPieChart transactions={transactions} />
+          <OneLevelPieChart transactions={filteredTransactions} />
         </div>
 
         <div className="w-1/3 rounded-lg">

@@ -26,8 +26,9 @@ export default function OneLevelPieChart({ transactions }: Props) {
   ];
 
   const COLORS = ["#22c55e", "#ef4444"];
+  const hasData = data.some((item) => item.value > 0);
 
-  return (
+  return hasData ? (
     <PieChart
       className="self-center -mt-24"
       style={{
@@ -51,9 +52,13 @@ export default function OneLevelPieChart({ transactions }: Props) {
           <Cell key={`cell-${index}`} fill={COLORS[index]} />
         ))}
       </Pie>
-
       <Tooltip />
       <Legend />
     </PieChart>
-  );
+  ) : (
+    <div className="flex flex-col items-center justify-center py-8 text-gray-500">
+      <p className="text-4xl">📊</p>
+      <p>No transactions found for this period</p>
+    </div>
+    )
 }
