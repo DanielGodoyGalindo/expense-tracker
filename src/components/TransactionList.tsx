@@ -87,11 +87,17 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
         <div className="flex gap-2">
           <span>Year</span>
           <select className="border" value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
+            {years.length > 0 ? (
+              years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))
+            ) : (
+              <option value={String(new Date().getFullYear())}>
+                {new Date().getFullYear()}
               </option>
-            ))}
+            )}
           </select>
         </div>
       </div>
