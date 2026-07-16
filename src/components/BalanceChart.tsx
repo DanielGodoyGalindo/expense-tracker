@@ -1,4 +1,4 @@
-import { Pie, PieChart, Tooltip, Legend, Cell } from "recharts";
+import { Pie, PieChart, Tooltip, Legend, type PieSectorShapeProps, Sector } from "recharts";
 import type { Transaction } from "../types/transaction";
 
 type Props = {
@@ -7,25 +7,30 @@ type Props = {
 
 export default function OneLevelPieChart({ transactions }: Props) {
   const income = transactions
-    .filter((transaction) => transaction.category === "income")
+    .filter((transaction) => transaction.category === "Income")
     .reduce((total, transaction) => total + transaction.amount, 0);
 
   const expenses = transactions
-    .filter((transaction) => transaction.category === "expense")
+    .filter((transaction) => transaction.category === "Expense")
     .reduce((total, transaction) => total + transaction.amount, 0);
+
+  const emerald_color = "#10b981"
+  const rose_color = "#f43f5e"
 
   const data = [
     {
       name: "Income",
       value: income,
+      fill: emerald_color,
     },
     {
       name: "Expenses",
       value: expenses,
+      fill: rose_color,
     },
   ];
 
-  const COLORS = ["#22c55e", "#ef4444"];
+  const MyCustomPie = (props: PieSectorShapeProps) => <Sector {...props} fill={props.fill} />;
   const hasData = data.some((item) => item.value > 0);
 
   return hasData ? (
@@ -35,11 +40,10 @@ export default function OneLevelPieChart({ transactions }: Props) {
         width: "100%",
         height: "100%",
         maxWidth: "600px",
-        maxHeight: "80vh",
+        maxHeight: "40vh",
         aspectRatio: 1,
       }}
-      responsive
-    >
+      responsive>
       <Pie
         data={data}
         dataKey="value"
@@ -47,10 +51,7 @@ export default function OneLevelPieChart({ transactions }: Props) {
         cx="50%"
         cy="50%"
         outerRadius="50%"
-      >
-        {data.map((_, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index]} />
-        ))}
+        shape={MyCustomPie}>
       </Pie>
       <Tooltip />
       <Legend />
@@ -60,5 +61,5 @@ export default function OneLevelPieChart({ transactions }: Props) {
       <p className="text-4xl">📊</p>
       <p>No transactions found for this period</p>
     </div>
-    )
+  )
 }

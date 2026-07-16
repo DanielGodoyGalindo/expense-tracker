@@ -4,7 +4,7 @@ type Transaction = {
     id: string;
     title: string;
     amount: number;
-    category: "expense" | "income";
+    category: "Expense" | "Income";
     date: string;
 }
 

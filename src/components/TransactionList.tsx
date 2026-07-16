@@ -61,11 +61,12 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
     setCurrentPage(1);
   }, [selectedMonth, selectedYear]);
 
+  const border_style = "border border-gray-300 rounded-sm"
 
   return (
     <div className="flex flex-col justify-center p-6 gap-4">
 
-      <p className="flex justify-center underline">
+      <p className="underline self-center text-lg text-shadow-md font-bold">
         Transaction list
       </p>
 
@@ -75,7 +76,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
 
         <div className="flex gap-2">
           <span>Month</span>
-          <select className="border" value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
+          <select className={border_style} value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
             {months.map((month) => (
               <option key={month.value} value={month.value}>
                 {month.name}
@@ -86,7 +87,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
 
         <div className="flex gap-2">
           <span>Year</span>
-          <select className="border" value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
+          <select className={border_style} value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
             {years.length > 0 ? (
               years.map((year) => (
                 <option key={year} value={year}>

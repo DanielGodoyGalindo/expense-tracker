@@ -8,7 +8,7 @@ type Props = {
 function TransactionForm({ onAddTransaction }: Props) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("expense");
+  const [category, setCategory] = useState("Expense");
   const [date, setDate] = useState("");
 
   function handleCategory(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -32,29 +32,27 @@ function TransactionForm({ onAddTransaction }: Props) {
       onAddTransaction(transaction);
       setTitle("");
       setAmount("");
-      setCategory("expense");
+      setCategory("Expense");
       setDate("");
     } catch (error) {
       alert(`Not able to create transaction. Error: ${error}`)
     }
   }
 
+  const border_style = "border border-gray-300 rounded-sm"
+
   return (
     <div className="place-self-center flex flex-col gap-2">
-      <h1 className="underline">Add your expense / income</h1>
-      <form className="flex flex-col gap-6 justify-center place-self-center shadow-2xl border-2 border-indigo-900 rounded-lg p-2" onSubmit={handleSubmit}>
-        <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required/>
-
-        <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} required/>
-
-        <select value={category} onChange={handleCategory} required>
-          <option>expense</option>
-          <option>income</option>
+      <h1 className="underline self-center text-lg text-shadow-md font-bold">Add your expense / income</h1>
+      <form className="flex flex-col gap-2 justify-center place-self-center shadow-2xl border-2 border-indigo-900 rounded-lg p-2" onSubmit={handleSubmit}>
+        <input type="text" placeholder="Title" value={title} className={`${border_style} p-2`} onChange={(e) => setTitle(e.target.value)} required/>
+        <input type="number" placeholder="Amount" value={amount} className={`${border_style} p-2`} onChange={(e) => setAmount(e.target.value)} required/>
+        <select value={category} className={`${border_style} p-2`} onChange={handleCategory} required>
+          <option>Expense</option>
+          <option>Income</option>
         </select>
-
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required/>
-
-        <button type="submit" className="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 border border-black rounded"> Add transaction </button>
+        <input type="date" value={date} className={`${border_style} p-2`} onChange={(e) => setDate(e.target.value)} required/>
+        <button type="submit" className="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 border border-black rounded hover:cursor-pointer"> Add transaction </button>
       </form>
     </div>
   );

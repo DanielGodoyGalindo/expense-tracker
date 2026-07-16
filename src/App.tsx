@@ -46,7 +46,7 @@ function App() {
   return (
     <div className="flex flex-col gap-8 p-4 min-h-screen">
 
-      <h1 className="text-6xl text-center">Expense Tracker</h1>
+      <h1 className="text-5xl font-bold text-center text-indigo-700 tracking-tight mb-4">Expense Tracker</h1>
 
       <div className="flex w-full justify-center gap-8">
 
@@ -56,7 +56,7 @@ function App() {
           <OneLevelPieChart transactions={filteredTransactions} />
         </div>
 
-        <div className="w-1/3 rounded-lg">
+        <div className="w-2/5 rounded-lg">
           <TransactionList
             transactions={filteredTransactions}
             selectedMonth={selectedMonth}
