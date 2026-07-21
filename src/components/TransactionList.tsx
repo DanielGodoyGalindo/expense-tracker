@@ -9,9 +9,10 @@ type Props = {
   setSelectedMonth: React.Dispatch<React.SetStateAction<string>>;
   setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
   onDeleteTransaction: (id: string) => void;
+  setEditingTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
 };
 
-function TransactionList({ transactions, selectedMonth, selectedYear, setSelectedMonth, setSelectedYear, onDeleteTransaction }: Props) {
+function TransactionList({ transactions, selectedMonth, selectedYear, setSelectedMonth, setSelectedYear, onDeleteTransaction, setEditingTransaction }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
@@ -119,7 +120,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
               <th>Amount</th>
               <th>Category</th>
               <th>Date</th>
-              <th>Delete</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -128,6 +129,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
                 key={transaction.id}
                 transaction={transaction}
                 onDeleteTransaction={onDeleteTransaction}
+                setEditingTransaction={setEditingTransaction}
               />
             ))}
           </tbody>

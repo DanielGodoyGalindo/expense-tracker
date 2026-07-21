@@ -24,10 +24,24 @@ function App() {
     setTransactions((prev) => [...prev, transaction]);
   };
 
+  // Delete transaction
   const deleteTransaction = (id: string) => {
     setTransactions((prev) =>
       prev.filter((transaction) => transaction.id !== id)
     );
+  };
+
+  // Update transaction
+  const updateTransaction = (updatedTransaction: Transaction) => {
+    setTransactions((prev) =>
+      prev.map((transaction) =>
+        transaction.id === updatedTransaction.id
+          ? updatedTransaction
+          : transaction
+      )
+    );
+
+    setEditingTransaction(null);
   };
 
   const today = new Date();
@@ -43,6 +57,8 @@ function App() {
     );
   });
 
+  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+
   return (
     <div className="flex flex-col gap-8 p-4 min-h-screen">
 
@@ -51,7 +67,12 @@ function App() {
       <div className="flex w-full justify-center gap-8">
 
         <div className="flex flex-col w-1/3 p-4 rounded-lg gap-12 justify-center">
-          <TransactionForm onAddTransaction={addTransaction} />
+          <TransactionForm
+            onAddTransaction={addTransaction}
+            editingTransaction={editingTransaction}
+            onUpdateTransaction={updateTransaction}
+            onCancelEdit={() => setEditingTransaction(null)}
+          />
           <Balance transactions={filteredTransactions} selectedMonth={selectedMonth} selectedYear={selectedYear} />
           <OneLevelPieChart transactions={filteredTransactions} />
         </div>
@@ -64,6 +85,7 @@ function App() {
             setSelectedMonth={setSelectedMonth}
             setSelectedYear={setSelectedYear}
             onDeleteTransaction={deleteTransaction}
+            setEditingTransaction={setEditingTransaction}
           />
         </div>
 
