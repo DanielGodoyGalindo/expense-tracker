@@ -114,7 +114,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
 
         <table className="table-fixed w-full">
           <thead>
-            <tr className="h-12">
+            <tr className="h-12 text-indigo-700 [&>th]:italic">
               <th>Title</th>
               <th>Amount</th>
               <th>Category</th>
