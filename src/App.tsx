@@ -47,15 +47,22 @@ function App() {
   const today = new Date();
   const [selectedMonth, setSelectedMonth] = useState(String(today.getMonth() + 1).padStart(2, "0"));
   const [selectedYear, setSelectedYear] = useState(String(today.getFullYear()));
-  const filteredTransactions = transactions.filter((transaction) => {
+  // Filter by date
+  const filteredTransactions1 = transactions.filter((transaction) => {
     const year = transaction.date.slice(0, 4);
     const month = transaction.date.slice(5, 7);
-
     return (
       year === selectedYear &&
       month === selectedMonth
     );
   });
+
+  const [selectedCategory, setSelectedCategory] = useState("Expense");
+  // Filter by category
+  const filteredTransactions2 = filteredTransactions1.filter(transaction => {
+    const category = transaction.category;
+    return (category == selectedCategory);
+  })
 
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
@@ -73,19 +80,21 @@ function App() {
             onUpdateTransaction={updateTransaction}
             onCancelEdit={() => setEditingTransaction(null)}
           />
-          <Balance transactions={filteredTransactions} selectedMonth={selectedMonth} selectedYear={selectedYear} />
-          <OneLevelPieChart transactions={filteredTransactions} />
+          <Balance transactions={filteredTransactions2} selectedMonth={selectedMonth} selectedYear={selectedYear} />
+          <OneLevelPieChart transactions={filteredTransactions2} />
         </div>
 
         <div className="w-2/5 rounded-lg">
           <TransactionList
-            transactions={filteredTransactions}
+            transactions={filteredTransactions2}
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
+            selectedCategory={selectedCategory}
             setSelectedMonth={setSelectedMonth}
             setSelectedYear={setSelectedYear}
             onDeleteTransaction={deleteTransaction}
             setEditingTransaction={setEditingTransaction}
+            setSelectedCategory={setSelectedCategory}
           />
         </div>
 

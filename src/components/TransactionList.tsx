@@ -6,13 +6,15 @@ type Props = {
   transactions: Transaction[];
   selectedMonth: string;
   selectedYear: string;
+  selectedCategory: string;
   setSelectedMonth: React.Dispatch<React.SetStateAction<string>>;
   setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
   onDeleteTransaction: (id: string) => void;
   setEditingTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
 };
 
-function TransactionList({ transactions, selectedMonth, selectedYear, setSelectedMonth, setSelectedYear, onDeleteTransaction, setEditingTransaction }: Props) {
+function TransactionList({ transactions, selectedMonth, selectedYear, selectedCategory, setSelectedMonth, setSelectedYear, onDeleteTransaction, setEditingTransaction, setSelectedCategory }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
@@ -30,6 +32,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
     { name: "November", value: "11" },
     { name: "December", value: "12" },
   ];
+  const categories = ["Expense", "Income"];
 
 
   useEffect(() => {
@@ -38,15 +41,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
     }
   }, [transactions]);
 
-  const filteredTransactions = transactions.filter((transaction) => {
-    const transactionYear = transaction.date.slice(0, 4);
-    const transactionMonth = transaction.date.slice(5, 7);
-
-    return (
-      transactionYear === selectedYear &&
-      transactionMonth === selectedMonth
-    );
-  });
+  const filteredTransactions = transactions;
 
   const indexOfLastTransaction = currentPage * itemsPerPage;
   const indexOfFirstTransaction = indexOfLastTransaction - itemsPerPage;
@@ -60,7 +55,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedMonth, selectedYear]);
+  }, [selectedMonth, selectedYear, selectedCategory]);
 
   const border_style = "border border-gray-300 rounded-sm"
 
@@ -72,8 +67,19 @@ function TransactionList({ transactions, selectedMonth, selectedYear, setSelecte
       </p>
 
 
-      {/* Month and year selectors */}
+      {/* Category, month and year selectors */}
       <div className="flex justify-center gap-8">
+
+        <div className="flex gap-2">
+          <span>Category</span>
+          <select className={border_style} value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+            {categories.map((category) => 
+              <option key={category} value={category}>
+                {category}
+              </option>
+            )}
+          </select>
+        </div>
 
         <div className="flex gap-2">
           <span>Month</span>
