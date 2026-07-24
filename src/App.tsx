@@ -57,14 +57,17 @@ function App() {
     );
   });
 
-  const [selectedCategory, setSelectedCategory] = useState("Expense");
+  const [selectedCategory, setSelectedCategory] = useState("Both");
   // Filter by category
-  const filteredTransactions2 = filteredTransactions1.filter(transaction => {
-    const category = transaction.category;
-    return (category == selectedCategory);
-  })
+  const filteredTransactions2 =
+    selectedCategory === "Both"
+      ? filteredTransactions1
+      : filteredTransactions1.filter(
+        (transaction) => transaction.category === selectedCategory
+      );
 
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+
 
   return (
     <div className="flex flex-col gap-8 p-4 min-h-screen">

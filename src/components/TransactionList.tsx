@@ -32,7 +32,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
     { name: "November", value: "11" },
     { name: "December", value: "12" },
   ];
-  const categories = ["Expense", "Income"];
+  const categories = ["Both", "Expense", "Income"];
 
 
   useEffect(() => {
@@ -73,7 +73,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
         <div className="flex gap-2">
           <span>Category</span>
           <select className={border_style} value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-            {categories.map((category) => 
+            {categories.map((category) =>
               <option key={category} value={category}>
                 {category}
               </option>
