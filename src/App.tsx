@@ -103,7 +103,7 @@ function App() {
 
       </div>
       <footer className='self-center'>
-        Made by <a href='https://github.com/DanielGodoyGalindo/expense-tracker' className='cursor: pointer; text-indigo-700 hover:underline' >Daniel Godoy</a>
+        Made by <a href='https://github.com/DanielGodoyGalindo/expense-tracker' className='cursor: pointer; text-indigo-700 hover:underline font-bold' target='_blank'>Daniel Godoy</a>
       </footer>
     </div>
   );
