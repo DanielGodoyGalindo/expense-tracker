@@ -102,6 +102,9 @@ function App() {
         </div>
 
       </div>
+      <footer className='self-center'>
+        Made by <a href='https://github.com/DanielGodoyGalindo/expense-tracker' className='cursor: pointer; text-indigo-700 hover:underline' >Daniel Godoy</a>
+      </footer>
     </div>
   );
 }
