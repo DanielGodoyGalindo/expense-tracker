@@ -81,6 +81,15 @@ This project was developed as part of my web development portfolio to practice:
 - Data visualization
 - Responsive design with Tailwind CSS
 
+## 💡 Future ideas / Upcoming updates
+- Search by title
+- Order by (date, amount, title)
+- Budget limit
+- Add modal messages (updating, deleting)
+- CSV export
+- Dark mode
+- Monthly bar chart
+
 ## 📄 License
 
 This project is open source and available under the MIT License.
