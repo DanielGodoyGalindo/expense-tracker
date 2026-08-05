@@ -91,7 +91,8 @@ This project was developed as part of my web development portfolio to practice:
 - Responsive design with Tailwind CSS
 
 ## 💡 Future ideas / Upcoming updates
-- Search by title
+- Category selector ✅ <span style="color:green;">done</span>
+- Search by title ✅ <span style="color:green;">done</span>
 - Order by (date, amount, title)
 - Budget limit
 - Add modal messages (updating, deleting)
