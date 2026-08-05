@@ -2,6 +2,15 @@
 
 ![Expense Tracker Screenshot](./public/samples/sample01.png)
 
+<h2 align="center">🚀 Deployment</h2>
+<p align="center">
+  <a href="https://expense-tracker-rho-six-txv771vn84.vercel.app/">
+    👉 Live Demo
+  </a>
+</p>
+<br/>
+
+
 A modern and responsive **Expense Tracker** built with **React**, **TypeScript**, and **Tailwind CSS**. It allows users to manage their personal finances by tracking income and expenses, viewing their current balance, and visualizing their spending with an interactive pie chart.
 
 ## ✨ Features
