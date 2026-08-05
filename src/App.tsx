@@ -47,26 +47,30 @@ function App() {
   const today = new Date();
   const [selectedMonth, setSelectedMonth] = useState(String(today.getMonth() + 1).padStart(2, "0"));
   const [selectedYear, setSelectedYear] = useState(String(today.getFullYear()));
-  // Filter by date
-  const filteredTransactions1 = transactions.filter((transaction) => {
-    const year = transaction.date.slice(0, 4);
-    const month = transaction.date.slice(5, 7);
-    return (
-      year === selectedYear &&
-      month === selectedMonth
-    );
-  });
-
   const [selectedCategory, setSelectedCategory] = useState("Both");
-  // Filter by category
-  const filteredTransactions2 =
-    selectedCategory === "Both"
-      ? filteredTransactions1
-      : filteredTransactions1.filter(
-        (transaction) => transaction.category === selectedCategory
-      );
-
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+  const [searchTitle, setSearchTitle] = useState("");
+
+  const filteredTransactions = transactions
+    .filter((transaction) => {
+      const year = transaction.date.slice(0, 4);
+      const month = transaction.date.slice(5, 7);
+
+      return (
+        year === selectedYear &&
+        month === selectedMonth
+      );
+    })
+    .filter((transaction) =>
+      selectedCategory === "Both"
+        ? true
+        : transaction.category === selectedCategory
+    )
+    .filter((transaction) =>
+      transaction.title
+        .toLowerCase()
+        .includes(searchTitle.toLowerCase())
+    );
 
 
   return (
@@ -83,13 +87,13 @@ function App() {
             onUpdateTransaction={updateTransaction}
             onCancelEdit={() => setEditingTransaction(null)}
           />
-          <Balance transactions={filteredTransactions2} selectedMonth={selectedMonth} selectedYear={selectedYear} />
-          <OneLevelPieChart transactions={filteredTransactions2} />
+          <Balance transactions={filteredTransactions} selectedMonth={selectedMonth} selectedYear={selectedYear} />
+          <OneLevelPieChart transactions={filteredTransactions} />
         </div>
 
         <div className="w-2/5 rounded-lg">
           <TransactionList
-            transactions={filteredTransactions2}
+            transactions={filteredTransactions}
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
             selectedCategory={selectedCategory}
@@ -98,6 +102,8 @@ function App() {
             onDeleteTransaction={deleteTransaction}
             setEditingTransaction={setEditingTransaction}
             setSelectedCategory={setSelectedCategory}
+            searchTitle={searchTitle}
+            setSearchTitle={setSearchTitle}
           />
         </div>
 

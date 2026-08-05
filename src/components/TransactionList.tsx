@@ -12,9 +12,11 @@ type Props = {
   onDeleteTransaction: (id: string) => void;
   setEditingTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
   setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
+  searchTitle: string;
+  setSearchTitle : React.Dispatch<React.SetStateAction<string>>;
 };
 
-function TransactionList({ transactions, selectedMonth, selectedYear, selectedCategory, setSelectedMonth, setSelectedYear, onDeleteTransaction, setEditingTransaction, setSelectedCategory }: Props) {
+function TransactionList({ transactions, selectedMonth, selectedYear, selectedCategory, setSelectedMonth, setSelectedYear, onDeleteTransaction, setEditingTransaction, setSelectedCategory, searchTitle, setSearchTitle }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
@@ -33,7 +35,6 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
     { name: "December", value: "12" },
   ];
   const categories = ["Both", "Expense", "Income"];
-
 
   useEffect(() => {
     if (transactions.length > 0 && !years.includes(selectedYear)) {
@@ -107,6 +108,16 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
               </option>
             )}
           </select>
+        </div>
+
+        <div className="flex gap-2">
+          <span>Search</span>
+          <input
+            className={border_style}
+            type="text"
+            placeholder="Search title..."
+            value={searchTitle}
+            onChange={(e) => setSearchTitle(e.target.value)}></input>
         </div>
       </div>
 
