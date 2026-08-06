@@ -147,13 +147,34 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
                     setSortOrder("asc");
                   }
                 }}
-                className="cursor-pointer"
-              >
+                className="cursor-pointer">
                 Title {sortBy === "title" && (sortOrder === "asc" ? "▲" : "▼")}
               </th>
-              <th>Amount</th>
+              <th
+                onClick={() => {
+                  if (sortBy === "amount") {
+                    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                  } else {
+                    setSortBy("amount");
+                    setSortOrder("asc");
+                  }
+                }}
+                className="cursor-pointer">
+                Amount {sortBy === "amount" && (sortOrder === "asc" ? "▲" : "▼")}
+              </th>
               <th>Category</th>
-              <th>Date</th>
+              <th
+                onClick={() => {
+                  if (sortBy === "date") {
+                    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                  } else {
+                    setSortBy("date");
+                    setSortOrder("asc");
+                  }
+                }}
+                className="cursor-pointer">
+                Date {sortBy === "date" && (sortOrder === "asc" ? "▲" : "▼")}
+              </th>
               <th>Actions</th>
             </tr>
           </thead>
