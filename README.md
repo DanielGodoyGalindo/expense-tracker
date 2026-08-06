@@ -93,7 +93,7 @@ This project was developed as part of my web development portfolio to practice:
 ## 💡 Future ideas / Upcoming updates
 - Category selector ✅ <span style="color:green;">done</span>
 - Search by title ✅ <span style="color:green;">done</span>
-- Order by (date, amount, title)
+- Order by (date, amount, title) ✅ <span style="color:green;">done</span>
 - Budget limit
 - Add modal messages (updating, deleting)
 - CSV export
