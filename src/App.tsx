@@ -50,27 +50,49 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState("Both");
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
   const [searchTitle, setSearchTitle] = useState("");
+  const [sortBy, setSortBy] = useState<"date" | "amount" | "title">("date");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
+  // Filter trasactions
   const filteredTransactions = transactions
-    .filter((transaction) => {
+    .filter((transaction) => { // By date
       const year = transaction.date.slice(0, 4);
       const month = transaction.date.slice(5, 7);
-
       return (
         year === selectedYear &&
         month === selectedMonth
       );
     })
-    .filter((transaction) =>
+    .filter((transaction) => // By category
       selectedCategory === "Both"
         ? true
         : transaction.category === selectedCategory
     )
-    .filter((transaction) =>
+    .filter((transaction) => // By searching title
       transaction.title
         .toLowerCase()
         .includes(searchTitle.toLowerCase())
     );
+
+  // Sort transactions
+  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
+    switch (sortBy) {
+      case "date":
+        return sortOrder === "asc"
+          ? a.date.localeCompare(b.date)
+          : b.date.localeCompare(a.date);
+      case "amount":
+        return sortOrder === "asc"
+          ? a.amount - b.amount
+          : b.amount - a.amount;
+      case "title":
+        return sortOrder === "asc"
+          ? a.title.localeCompare(b.title)
+          : b.title.localeCompare(a.title);
+      default:
+        return 0;
+    }
+  });
 
 
   return (
@@ -93,7 +115,7 @@ function App() {
 
         <div className="w-2/5 rounded-lg">
           <TransactionList
-            transactions={filteredTransactions}
+            transactions={sortedTransactions}
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
             selectedCategory={selectedCategory}
@@ -104,6 +126,10 @@ function App() {
             setSelectedCategory={setSelectedCategory}
             searchTitle={searchTitle}
             setSearchTitle={setSearchTitle}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
           />
         </div>
 

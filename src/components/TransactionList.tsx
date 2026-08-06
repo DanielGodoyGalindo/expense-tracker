@@ -13,10 +13,14 @@ type Props = {
   setEditingTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
   setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
   searchTitle: string;
-  setSearchTitle : React.Dispatch<React.SetStateAction<string>>;
+  setSearchTitle: React.Dispatch<React.SetStateAction<string>>;
+  sortBy: "date" | "amount" | "title";
+  setSortBy: React.Dispatch<React.SetStateAction<"date" | "amount" | "title">>;
+  sortOrder: "asc" | "desc";
+  setSortOrder: React.Dispatch<React.SetStateAction<"asc" | "desc">>;
 };
 
-function TransactionList({ transactions, selectedMonth, selectedYear, selectedCategory, setSelectedMonth, setSelectedYear, onDeleteTransaction, setEditingTransaction, setSelectedCategory, searchTitle, setSearchTitle }: Props) {
+function TransactionList({ transactions, selectedMonth, selectedYear, selectedCategory, setSelectedMonth, setSelectedYear, onDeleteTransaction, setEditingTransaction, setSelectedCategory, searchTitle, setSearchTitle, sortBy, setSortBy, sortOrder, setSortOrder }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
@@ -68,7 +72,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
       </p>
 
 
-      {/* Category, month and year selectors */}
+      {/* Filters: Category, month, year selectors and search by title input */}
       <div className="flex justify-center gap-8">
 
         <div className="flex gap-2">
@@ -122,6 +126,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
       </div>
 
 
+      {/* Transactions table */}
       {currentTransactions.length === 0 ? (
 
         <p className="text-center text-gray-500">
@@ -133,7 +138,19 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
         <table className="table-fixed w-full">
           <thead>
             <tr className="h-12 text-indigo-700 [&>th]:italic">
-              <th>Title</th>
+              <th
+                onClick={() => {
+                  if (sortBy === "title") {
+                    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+                  } else {
+                    setSortBy("title");
+                    setSortOrder("asc");
+                  }
+                }}
+                className="cursor-pointer"
+              >
+                Title {sortBy === "title" && (sortOrder === "asc" ? "▲" : "▼")}
+              </th>
               <th>Amount</th>
               <th>Category</th>
               <th>Date</th>
@@ -153,7 +170,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
         </table>
       )}
 
-
+      {/* Pagination buttons */}
       {filteredTransactions.length > 0 && (
         <div className="flex justify-center items-center gap-4">
 
