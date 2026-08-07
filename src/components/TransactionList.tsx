@@ -9,7 +9,6 @@ type Props = {
   selectedCategory: string;
   setSelectedMonth: React.Dispatch<React.SetStateAction<string>>;
   setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
-  onDeleteTransaction: (id: string) => void;
   setEditingTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
   setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
   searchTitle: string;
@@ -18,9 +17,10 @@ type Props = {
   setSortBy: React.Dispatch<React.SetStateAction<"date" | "amount" | "title">>;
   sortOrder: "asc" | "desc";
   setSortOrder: React.Dispatch<React.SetStateAction<"asc" | "desc">>;
+  onRequestDelete: (transaction: Transaction) => void;
 };
 
-function TransactionList({ transactions, selectedMonth, selectedYear, selectedCategory, setSelectedMonth, setSelectedYear, onDeleteTransaction, setEditingTransaction, setSelectedCategory, searchTitle, setSearchTitle, sortBy, setSortBy, sortOrder, setSortOrder }: Props) {
+function TransactionList({ transactions, selectedMonth, selectedYear, selectedCategory, setSelectedMonth, setSelectedYear, setEditingTransaction, setSelectedCategory, searchTitle, setSearchTitle, sortBy, setSortBy, sortOrder, setSortOrder, onRequestDelete }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
@@ -183,8 +183,8 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
               <TransactionItem
                 key={transaction.id}
                 transaction={transaction}
-                onDeleteTransaction={onDeleteTransaction}
                 setEditingTransaction={setEditingTransaction}
+                onRequestDelete={onRequestDelete}
               />
             ))}
           </tbody>

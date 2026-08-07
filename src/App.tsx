@@ -5,6 +5,7 @@ import TransactionForm from './components/TransactionForm';
 import TransactionList from './components/TransactionList'
 import Balance from './components/Balance';
 import OneLevelPieChart from './components/BalanceChart';
+import Modal from './components/Modal';
 
 function App() {
 
@@ -52,6 +53,7 @@ function App() {
   const [searchTitle, setSearchTitle] = useState("");
   const [sortBy, setSortBy] = useState<"date" | "amount" | "title">("date");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
 
   // Filter trasactions
   const filteredTransactions = transactions
@@ -94,6 +96,10 @@ function App() {
     }
   });
 
+  const onRequestDelete = (transaction: Transaction) => {
+    setTransactionToDelete(transaction);
+  };
+
 
   return (
     <div className="flex flex-col gap-8 p-4 min-h-screen">
@@ -121,15 +127,15 @@ function App() {
             selectedCategory={selectedCategory}
             setSelectedMonth={setSelectedMonth}
             setSelectedYear={setSelectedYear}
-            onDeleteTransaction={deleteTransaction}
-            setEditingTransaction={setEditingTransaction}
             setSelectedCategory={setSelectedCategory}
-            searchTitle={searchTitle}
             setSearchTitle={setSearchTitle}
-            sortBy={sortBy}
+            searchTitle={searchTitle}
             setSortBy={setSortBy}
-            sortOrder={sortOrder}
+            sortBy={sortBy}
             setSortOrder={setSortOrder}
+            sortOrder={sortOrder}
+            setEditingTransaction={setEditingTransaction}
+            onRequestDelete={onRequestDelete}
           />
         </div>
 
@@ -137,6 +143,21 @@ function App() {
       <footer className='self-center'>
         Made by <a href='https://github.com/DanielGodoyGalindo/expense-tracker' className='cursor: pointer; text-indigo-700 hover:underline font-bold' target='_blank'>Daniel Godoy</a>
       </footer>
+
+      {transactionToDelete && (
+        <Modal
+          title="Delete transaction?"
+          message={`Are you sure you want to delete "${transactionToDelete.title}"?`}
+          onCancel={() => setTransactionToDelete(null)}
+          onConfirm={() => {
+            deleteTransaction(transactionToDelete.id);
+            setTransactionToDelete(null);
+          }}
+          confirmText="Delete"
+          cancelText="Cancel"
+        />
+      )}
+      
     </div>
   );
 }
