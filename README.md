@@ -95,7 +95,7 @@ This project was developed as part of my web development portfolio to practice:
 - Search by title ✅ <span style="color:green;">done</span>
 - Order by (date, amount, title) ✅ <span style="color:green;">done</span>
 - Budget limit
-- Add modal messages (updating, deleting)
+- Add modal messages (updating, deleting) <span style="color:green;">modal for deleting done</span>
 - CSV export
 - Dark mode
 - Monthly bar chart
