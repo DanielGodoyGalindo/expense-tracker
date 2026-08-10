@@ -9,6 +9,18 @@ import Modal from './components/Modal';
 
 function App() {
 
+  const today = new Date();
+  const [selectedMonth, setSelectedMonth] = useState(String(today.getMonth() + 1).padStart(2, "0"));
+  const [selectedYear, setSelectedYear] = useState(String(today.getFullYear()));
+  const [selectedCategory, setSelectedCategory] = useState("Both");
+  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+  const [searchTitle, setSearchTitle] = useState("");
+  const [sortBy, setSortBy] = useState<"date" | "amount" | "title">("date");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
   // Execute just once when mounting component
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
     const stored = localStorage.getItem("transactions");
@@ -20,9 +32,24 @@ function App() {
     localStorage.setItem("transactions", JSON.stringify(transactions));
   }, [transactions]);
 
+  // Show message when action is done
+  const showSuccess = (message: string) => {
+    setSuccessMessage(message);
+    setShowSuccessMessage(true);
+
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+    }, 3000);
+
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 3500);
+  };
+
   // Add transaction inside form
   const addTransaction = (transaction: Transaction) => {
     setTransactions((prev) => [...prev, transaction]);
+    showSuccess("Transaction added successfully!");
   };
 
   // Delete transaction
@@ -30,6 +57,7 @@ function App() {
     setTransactions((prev) =>
       prev.filter((transaction) => transaction.id !== id)
     );
+    showSuccess("Transaction deleted successfully!");
   };
 
   // Update transaction
@@ -41,19 +69,9 @@ function App() {
           : transaction
       )
     );
-
     setEditingTransaction(null);
+    showSuccess("Transaction updated successfully!");
   };
-
-  const today = new Date();
-  const [selectedMonth, setSelectedMonth] = useState(String(today.getMonth() + 1).padStart(2, "0"));
-  const [selectedYear, setSelectedYear] = useState(String(today.getFullYear()));
-  const [selectedCategory, setSelectedCategory] = useState("Both");
-  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
-  const [searchTitle, setSearchTitle] = useState("");
-  const [sortBy, setSortBy] = useState<"date" | "amount" | "title">("date");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
 
   // Filter trasactions
   const filteredTransactions = transactions
@@ -100,11 +118,23 @@ function App() {
     setTransactionToDelete(transaction);
   };
 
-
   return (
     <div className="flex flex-col gap-8 p-4 min-h-screen">
 
       <h1 className="text-5xl font-bold text-center text-indigo-700 tracking-tight mb-4">Expense Tracker</h1>
+
+      {/* Success message when user does an action (create, update or delete a transaction)*/}
+      {successMessage && (
+        <div
+          className={`
+            fixed top-5 right-5 z-50
+          bg-green-100 border border-green-400 text-green-700
+            px-4 py-3 rounded-lg shadow-lg
+            transition-transform duration-500 ease-in-out
+            ${showSuccessMessage ? "translate-x-0" : "translate-x-[120%]"}`}>
+          ✓ {successMessage}
+        </div>
+      )}
 
       <div className="flex w-full justify-center gap-8">
 
@@ -157,7 +187,7 @@ function App() {
           cancelText="Cancel"
         />
       )}
-      
+
     </div>
   );
 }

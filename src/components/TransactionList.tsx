@@ -62,7 +62,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
     setCurrentPage(1);
   }, [selectedMonth, selectedYear, selectedCategory]);
 
-  const border_style = "border border-gray-300 rounded-sm"
+  const border_style = "border border-gray-300 rounded-sm pl-1 pr-1"
 
   return (
     <div className="flex flex-col justify-center p-6 gap-4">
