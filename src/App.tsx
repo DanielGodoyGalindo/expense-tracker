@@ -21,10 +21,13 @@ function App() {
   const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [budgets, setBudgets] = useState<Record<string, number>>({}); // {"2026-07": 1000}
+  const [budgets, setBudgets] = useState<Record<string, number>>(() => {
+    const storedBudgets = localStorage.getItem("budgets");
+    return storedBudgets ? JSON.parse(storedBudgets) : {};
+  });
 
   // Execute just once when mounting component
-  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+  const [transactions, setTransactions] = useState<Transaction[]>(() => { // {"2026-07": 1000}
     const stored = localStorage.getItem("transactions");
     return stored ? JSON.parse(stored) : [];
   });
@@ -38,14 +41,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem("budgets", JSON.stringify(budgets));
   }, [budgets]);
-
-  // Get budgets
-  useEffect(() => {
-    const storedBudgets = localStorage.getItem("budgets");
-    if (storedBudgets) {
-      setBudgets(JSON.parse(storedBudgets));
-    }
-  }, []);
 
   // Show message when action is done
   const showSuccess = (message: string) => {
