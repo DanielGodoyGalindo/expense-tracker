@@ -39,16 +39,19 @@ function Balance({ transactions, selectedMonth, selectedYear }: Props) {
   }
 
   return (
-    <div
-      className={`place-self-center flex flex-col gap-1 border-4 rounded-xl p-2 ${balance < 0 ? "border-rose-500" : "border-emerald-500"} mt-3 text-2xl`}>
-      {transactions.length > 0 ? (
-        <>
-          <p>Your balance for {monthName} {selectedYear}:</p>
-          <p className="text-center font-bold">{balance} €</p>
-        </>
-      ) : (
-        <span>No transactions for this month.</span>
-      )}
+    <div className="flex flex-col">
+      <p className="underline self-center text-lg text-shadow-md font-bold">Balance</p>
+      <div
+        className={`place-self-center flex flex-col gap-1 border-4 rounded-xl p-2 ${balance < 0 ? "border-rose-500" : "border-emerald-500"} mt-3 text-2xl`}>
+        {transactions.length > 0 ? (
+          <>
+            <p>Your balance for {monthName} {selectedYear}:</p>
+            <p className="text-center font-bold">{balance} €</p>
+          </>
+        ) : (
+          <span>No transactions for this month.</span>
+        )}
+      </div>
     </div>
   )
 }

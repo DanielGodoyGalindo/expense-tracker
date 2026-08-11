@@ -94,7 +94,7 @@ This project was developed as part of my web development portfolio to practice:
 - Category selector ✅ <span style="color:green;">done</span>
 - Search by title ✅ <span style="color:green;">done</span>
 - Order by (date, amount, title) ✅ <span style="color:green;">done</span>
-- Budget limit
+- Budget limit ✅ <span style="color:green;">done</span>
 - Add modal messages (updating) ✅ <span style="color:green;">done</span>
 - Successful message when adding, updating or deleting a transaction ✅ <span style="color:green;">done</span>
 - CSV export

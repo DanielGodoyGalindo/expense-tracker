@@ -54,7 +54,12 @@ export default function OneLevelPieChart({ transactions }: Props) {
         shape={MyCustomPie}>
       </Pie>
       <Tooltip />
-      <Legend />
+      <Legend
+        verticalAlign="bottom"
+        wrapperStyle={{
+          transform: "translateY(-48px)",
+        }}
+      />
     </PieChart>
   ) : (
     <div className="flex flex-col items-center justify-center py-8 text-gray-500">

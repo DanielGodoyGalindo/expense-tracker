@@ -6,6 +6,7 @@ import TransactionList from './components/TransactionList'
 import Balance from './components/Balance';
 import OneLevelPieChart from './components/BalanceChart';
 import Modal from './components/Modal';
+import Budget from './components/Budget';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
   const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [budgets, setBudgets] = useState<Record<string, number>>({}); // {"2026-07": 1000}
 
   // Execute just once when mounting component
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
@@ -31,6 +33,19 @@ function App() {
   useEffect(() => {
     localStorage.setItem("transactions", JSON.stringify(transactions));
   }, [transactions]);
+
+  // Set budgets to localStorage
+  useEffect(() => {
+    localStorage.setItem("budgets", JSON.stringify(budgets));
+  }, [budgets]);
+
+  // Get budgets
+  useEffect(() => {
+    const storedBudgets = localStorage.getItem("budgets");
+    if (storedBudgets) {
+      setBudgets(JSON.parse(storedBudgets));
+    }
+  }, []);
 
   // Show message when action is done
   const showSuccess = (message: string) => {
@@ -114,9 +129,16 @@ function App() {
     }
   });
 
+  const totalExpenses = filteredTransactions
+    .filter((transaction) => transaction.category === "Expense")
+    .reduce((total, transaction) => total + transaction.amount, 0);
+
   const onRequestDelete = (transaction: Transaction) => {
     setTransactionToDelete(transaction);
   };
+
+  const budgetKey = `${selectedYear}-${selectedMonth}`;
+  const currentBudget = budgets[budgetKey] ?? 0;
 
   return (
     <div className="flex flex-col gap-8 p-4 min-h-screen">
@@ -149,7 +171,7 @@ function App() {
           <OneLevelPieChart transactions={filteredTransactions} />
         </div>
 
-        <div className="w-2/5 rounded-lg">
+        <div className="w-2/5 rounded-lg flex flex-col items-center gap-y-28">
           <TransactionList
             transactions={sortedTransactions}
             selectedMonth={selectedMonth}
@@ -166,6 +188,17 @@ function App() {
             sortOrder={sortOrder}
             setEditingTransaction={setEditingTransaction}
             onRequestDelete={onRequestDelete}
+          />
+
+          <Budget
+            budget={currentBudget}
+            expenses={totalExpenses}
+            onSetBudget={(amount) => {
+              setBudgets((prev) => ({
+                ...prev,
+                [budgetKey]: amount,
+              }));
+            }}
           />
         </div>
 
