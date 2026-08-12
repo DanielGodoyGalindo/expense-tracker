@@ -1,5 +1,5 @@
 import type { Transaction } from "../types/transaction";
-import type { Category, SortBy, SortOrder } from "../types/filters";
+import type { Category, SortBy, SortOrder } from "../types/filters"; 
 
 export function filterTransactions(
   transactions: Transaction[],

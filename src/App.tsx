@@ -7,7 +7,6 @@ import Balance from './components/Balance';
 import OneLevelPieChart from './components/BalanceChart';
 import Modal from './components/Modal';
 import Budget from './components/Budget';
-import { exportTransactionsToCSV } from "./utils/csv";
 import { filterTransactions, sortTransactions } from './utils/transactionUtils'
 import type { Category, SortBy, SortOrder } from "./types/filters";
 
@@ -99,15 +98,6 @@ function App() {
 
   const budgetKey = `${selectedYear}-${selectedMonth}`;
   const currentBudget = budgets[budgetKey] ?? 0;
-
-  const exportToCSV = () => {
-    if (sortedTransactions.length === 0) {
-      showSuccess("No transactions to export.");
-      return;
-    }
-    exportTransactionsToCSV(sortedTransactions);
-    showSuccess("CSV exported successfully!");
-  };
 
   return (
     <div className="flex flex-col gap-8 p-4 min-h-screen">
