@@ -7,17 +7,20 @@ import Balance from './components/Balance';
 import OneLevelPieChart from './components/BalanceChart';
 import Modal from './components/Modal';
 import Budget from './components/Budget';
+import { exportTransactionsToCSV } from "./utils/csv";
+import { filterTransactions, sortTransactions } from './utils/transactionUtils'
+import type { Category, SortBy, SortOrder } from "./types/filters";
 
 function App() {
 
   const today = new Date();
   const [selectedMonth, setSelectedMonth] = useState(String(today.getMonth() + 1).padStart(2, "0"));
   const [selectedYear, setSelectedYear] = useState(String(today.getFullYear()));
-  const [selectedCategory, setSelectedCategory] = useState("Both");
+  const [selectedCategory, setSelectedCategory] = useState<Category>("Both");
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
   const [searchTitle, setSearchTitle] = useState("");
-  const [sortBy, setSortBy] = useState<"date" | "amount" | "title">("date");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [sortBy, setSortBy] = useState<SortBy>("date");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [transactionToDelete, setTransactionToDelete] = useState<Transaction | null>(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -83,46 +86,8 @@ function App() {
     showSuccess("Transaction updated successfully!");
   };
 
-  // Filter trasactions
-  const filteredTransactions = transactions
-    .filter((transaction) => { // By date
-      const year = transaction.date.slice(0, 4);
-      const month = transaction.date.slice(5, 7);
-      return (
-        year === selectedYear &&
-        month === selectedMonth
-      );
-    })
-    .filter((transaction) => // By category
-      selectedCategory === "Both"
-        ? true
-        : transaction.category === selectedCategory
-    )
-    .filter((transaction) => // By searching title
-      transaction.title
-        .toLowerCase()
-        .includes(searchTitle.toLowerCase())
-    );
-
-  // Sort transactions
-  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
-    switch (sortBy) {
-      case "date":
-        return sortOrder === "asc"
-          ? a.date.localeCompare(b.date)
-          : b.date.localeCompare(a.date);
-      case "amount":
-        return sortOrder === "asc"
-          ? a.amount - b.amount
-          : b.amount - a.amount;
-      case "title":
-        return sortOrder === "asc"
-          ? a.title.localeCompare(b.title)
-          : b.title.localeCompare(a.title);
-      default:
-        return 0;
-    }
-  });
+  const filteredTransactions = filterTransactions(transactions, selectedYear, selectedMonth, selectedCategory, searchTitle);
+  const sortedTransactions = sortTransactions(filteredTransactions, sortBy, sortOrder);
 
   const totalExpenses = filteredTransactions
     .filter((transaction) => transaction.category === "Expense")
@@ -134,6 +99,15 @@ function App() {
 
   const budgetKey = `${selectedYear}-${selectedMonth}`;
   const currentBudget = budgets[budgetKey] ?? 0;
+
+  const exportToCSV = () => {
+    if (sortedTransactions.length === 0) {
+      showSuccess("No transactions to export.");
+      return;
+    }
+    exportTransactionsToCSV(sortedTransactions);
+    showSuccess("CSV exported successfully!");
+  };
 
   return (
     <div className="flex flex-col gap-8 p-4 min-h-screen">
@@ -166,7 +140,7 @@ function App() {
           <OneLevelPieChart transactions={filteredTransactions} />
         </div>
 
-        <div className="w-2/5 rounded-lg flex flex-col items-center gap-y-28">
+        <div className="w-2/5 rounded-lg flex flex-col items-center gap-y-16">
           <TransactionList
             transactions={sortedTransactions}
             selectedMonth={selectedMonth}
@@ -199,7 +173,7 @@ function App() {
 
       </div>
       <footer className='self-center'>
-        Made by <a href='https://github.com/DanielGodoyGalindo/expense-tracker' className='cursor: pointer; text-indigo-700 hover:underline font-bold' target='_blank'>Daniel Godoy</a>
+        Made by <a href='https://github.com/DanielGodoyGalindo/expense-tracker' className='cursor-pointer; text-indigo-700 hover:underline font-bold' target='_blank'>Daniel Godoy</a>
       </footer>
 
       {transactionToDelete && (

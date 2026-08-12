@@ -1,16 +1,19 @@
 import TransactionItem from "./TransactionItem";
 import type { Transaction } from "../types/transaction";
 import { useState, useEffect } from "react";
+import type { Category } from "../types/filters";
+import { categories } from "../types/filters";
+import { exportTransactionsToCSV } from "../utils/csv";
 
 type Props = {
   transactions: Transaction[];
   selectedMonth: string;
   selectedYear: string;
-  selectedCategory: string;
+  selectedCategory: Category;
   setSelectedMonth: React.Dispatch<React.SetStateAction<string>>;
   setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
   setEditingTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
-  setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<Category>>;
   searchTitle: string;
   setSearchTitle: React.Dispatch<React.SetStateAction<string>>;
   sortBy: "date" | "amount" | "title";
@@ -38,7 +41,6 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
     { name: "November", value: "11" },
     { name: "December", value: "12" },
   ];
-  const categories = ["Both", "Expense", "Income"];
 
   useEffect(() => {
     if (transactions.length > 0 && !years.includes(selectedYear)) {
@@ -64,6 +66,13 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
 
   const border_style = "border border-gray-300 rounded-sm pl-1 pr-1"
 
+  const handleExportCSV = () => {
+    if (transactions.length === 0) {
+      return;
+    }
+    exportTransactionsToCSV(transactions);
+  };
+
   return (
     <div className="flex flex-col justify-center p-6 gap-4">
 
@@ -73,11 +82,11 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
 
 
       {/* Filters: Category, month, year selectors and search by title input */}
-      <div className="flex justify-center gap-8">
+      <div className="flex justify-center items-center gap-4 flex-wrap">
 
         <div className="flex gap-2">
           <span>Category</span>
-          <select className={border_style} value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+          <select className={border_style} value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value as Category)}>
             {categories.map((category) =>
               <option key={category} value={category}>
                 {category}
@@ -123,6 +132,13 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
             value={searchTitle}
             onChange={(e) => setSearchTitle(e.target.value)}></input>
         </div>
+
+        <button
+          onClick={handleExportCSV}
+          className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-0.5 px-2 rounded cursor-pointer">
+          Export CSV
+        </button>
+
       </div>
 
 
