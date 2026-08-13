@@ -65,7 +65,7 @@ function TransactionForm({ onAddTransaction, editingTransaction, onUpdateTransac
     }
   }
 
-  const border_style = "border border-gray-300 rounded-sm"
+  const border_style = "border border-gray-300 rounded-sm dark:border-gray-600 bg-white dark:bg-gray-700  text-gray-900 dark:text-white";
 
   return (
     <div className="place-self-center flex flex-col gap-2">
@@ -74,7 +74,7 @@ function TransactionForm({ onAddTransaction, editingTransaction, onUpdateTransac
           ? "Edit transaction"
           : "Add your expense / income"}
       </h1>
-      <form className="flex flex-col gap-2 justify-center place-self-center shadow-2xl border-2 border-indigo-900 rounded-lg p-2" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-2 justify-center place-self-center shadow-2xl border-2 border-indigo-900 dark:border-indigo-400 bg-white dark:bg-gray-800 rounded-lg p-2" onSubmit={handleSubmit}>
         <input type="text" placeholder="Title" value={title} className={`${border_style} p-2`} onChange={(e) => setTitle(e.target.value)} required />
         <input type="number" placeholder="Amount" value={amount} className={`${border_style} p-2`} onChange={(e) => setAmount(e.target.value)} required />
         <select value={category} className={`${border_style} p-2`} onChange={handleCategory} required>

@@ -9,14 +9,14 @@ type Props = {
 function TransactionItem({ transaction, setEditingTransaction, onRequestDelete }: Props) {
 
   return (
-    <tr className="text-center odd:bg-indigo-50 even:bg-indigo-100 h-12">
+    <tr className="text-center odd:bg-indigo-50 even:bg-indigo-100 h-12 dark:odd:bg-gray-600 dark:even:bg-gray-700">
       <td>{transaction.title}</td>
       <td>{transaction.amount} €</td>
       <td>{transaction.category}</td>
       <td>{transaction.date}</td>
       <td>
         <div className="flex justify-center gap-2">
-          <button onClick={() => onRequestDelete(transaction)} className="text-red-600 hover:cursor-pointer hover:underline">Del</button>
+          <button onClick={() => onRequestDelete(transaction)} className="text-red-600 dark:text-red-500 hover:cursor-pointer hover:underline">Del</button>
           <button onClick={() => setEditingTransaction(transaction)} className="hover:cursor-pointer hover:underline">Edit</button>
         </div>
       </td>

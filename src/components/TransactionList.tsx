@@ -64,7 +64,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
     setCurrentPage(1);
   }, [selectedMonth, selectedYear, selectedCategory]);
 
-  const border_style = "border border-gray-300 rounded-sm pl-1 pr-1"
+  const border_style = "border border-gray-300 rounded-sm pl-1 pr-1 bg-white dark:bg-gray-700"
 
   const handleExportCSV = () => {
     if (transactions.length === 0) {
@@ -153,7 +153,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
 
         <table className="table-fixed w-full">
           <thead>
-            <tr className="h-12 text-indigo-700 [&>th]:italic">
+            <tr className="h-12 text-indigo-700 dark:text-indigo-400 [&>th]:italic">
               <th
                 onClick={() => {
                   if (sortBy === "title") {

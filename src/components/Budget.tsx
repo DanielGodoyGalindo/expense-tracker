@@ -46,7 +46,7 @@ function Budget({ budget, expenses, onSetBudget }: Props) {
           <button
             type="button"
             onClick={handleEdit}
-            className="text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer">
+            className="text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer">
             Edit budget
           </button>
         )}
