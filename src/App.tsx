@@ -9,6 +9,7 @@ import Modal from './components/Modal';
 import Budget from './components/Budget';
 import { filterTransactions, sortTransactions } from './utils/transactionUtils'
 import type { Category, SortBy, SortOrder } from "./types/filters";
+import MonthlyBarChart from './components/MonthlyBarChart';
 
 function App() {
 
@@ -175,6 +176,9 @@ function App() {
             </div>
 
           </div>
+          
+          <MonthlyBarChart transactions={transactions} selectedYear={selectedYear} />
+          
           <footer className='self-center'>
             Made by <a href='https://github.com/DanielGodoyGalindo/expense-tracker' className='cursor-pointer; text-indigo-600 dark:text-indigo-400 hover:underline font-bold' target='_blank'>Daniel Godoy</a>
           </footer>

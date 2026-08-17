@@ -98,8 +98,9 @@ This project was developed as part of my web development portfolio to practice:
 - Add modal messages (updating) ✅ <span style="color:green;">done</span>
 - Successful message when adding, updating or deleting a transaction ✅ <span style="color:green;">done</span>
 - CSV export ✅ <span style="color:green;">done</span>
-- Dark mode
-- Monthly bar chart
+- Dark mode ✅ <span style="color:green;">done</span>
+- Monthly bar chart ✅ <span style="color:green;">done</span>
+- LocalStorage dark mode
 
 ## 📄 License
 
