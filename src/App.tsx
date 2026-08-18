@@ -28,7 +28,10 @@ function App() {
     const storedBudgets = localStorage.getItem("budgets");
     return storedBudgets ? JSON.parse(storedBudgets) : {};
   });
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const stored = localStorage.getItem("darkMode");
+    return stored === "true";
+  });
 
   // Execute just once when mounting component
   const [transactions, setTransactions] = useState<Transaction[]>(() => { // {"2026-07": 1000}
@@ -45,6 +48,11 @@ function App() {
   useEffect(() => {
     localStorage.setItem("budgets", JSON.stringify(budgets));
   }, [budgets]);
+
+  // Set dark mode to localStorage
+  useEffect(() => {
+    localStorage.setItem("darkMode", String(darkMode));
+  }, [darkMode]);
 
   // Show message when action is done
   const showSuccess = (message: string) => {
@@ -176,9 +184,9 @@ function App() {
             </div>
 
           </div>
-          
+
           <MonthlyBarChart transactions={transactions} selectedYear={selectedYear} />
-          
+
           <footer className='self-center'>
             Made by <a href='https://github.com/DanielGodoyGalindo/expense-tracker' className='cursor-pointer; text-indigo-600 dark:text-indigo-400 hover:underline font-bold' target='_blank'>Daniel Godoy</a>
           </footer>
