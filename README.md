@@ -100,7 +100,8 @@ This project was developed as part of my web development portfolio to practice:
 - CSV export ✅ <span style="color:green;">done</span>
 - Dark mode ✅ <span style="color:green;">done</span>
 - Monthly bar chart ✅ <span style="color:green;">done</span>
-- LocalStorage dark mode
+- LocalStorage dark mode ✅ <span style="color:green;">done</span>
+- Navbar to jump to all components
 
 ## 📄 License
 

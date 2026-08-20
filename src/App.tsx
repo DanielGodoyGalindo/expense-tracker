@@ -111,8 +111,9 @@ function App() {
 
   return (
     <div className={darkMode ? "dark" : ""}>
-      <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-white">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
 
+        {/* Dark / light mode */}
         <div className="fixed bottom-4 right-4 z-50">
           <button
             onClick={() => setDarkMode((prev) => !prev)}
@@ -122,9 +123,17 @@ function App() {
           </button>
         </div>
 
-        <div className="flex flex-col gap-8 p-4 min-h-screen">
+        <main className="max-w-6xl mx-auto px-4 py-8 space-y-10">
 
-          <h1 className="text-5xl font-bold text-center text-indigo-700 dark:text-indigo-400 tracking-tight mb-4">Expense Tracker</h1>
+          <header className="text-center">
+            <h1 className="text-5xl font-bold text-indigo-700 dark:text-indigo-400">
+              Expense Tracker
+            </h1>
+            <p className="mt-2 text-gray-500 dark:text-gray-400">
+              Track your expenses and manage your budget
+            </p>
+          </header>
+
 
           {/* Success message when user does an action (create, update or delete a transaction)*/}
           {successMessage && (
@@ -139,20 +148,28 @@ function App() {
             </div>
           )}
 
-          <div className="flex w-full justify-center gap-8">
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Balance transactions={filteredTransactions} selectedMonth={selectedMonth} selectedYear={selectedYear} />
+            <Budget
+              budget={currentBudget}
+              expenses={totalExpenses}
+              onSetBudget={(amount) => {
+                setBudgets((prev) => ({
+                  ...prev,
+                  [budgetKey]: amount,
+                }));
+              }}
+            />
+          </section>
 
-            <div className="flex flex-col w-1/3 p-4 rounded-lg gap-12 justify-center">
-              <TransactionForm
-                onAddTransaction={addTransaction}
-                editingTransaction={editingTransaction}
-                onUpdateTransaction={updateTransaction}
-                onCancelEdit={() => setEditingTransaction(null)}
-              />
-              <Balance transactions={filteredTransactions} selectedMonth={selectedMonth} selectedYear={selectedYear} />
-              <OneLevelPieChart transactions={filteredTransactions} />
-            </div>
-
-            <div className="w-2/5 rounded-lg flex flex-col items-center gap-y-16">
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <TransactionForm
+              onAddTransaction={addTransaction}
+              editingTransaction={editingTransaction}
+              onUpdateTransaction={updateTransaction}
+              onCancelEdit={() => setEditingTransaction(null)}
+            />
+            <div className="lg:col-span-2">
               <TransactionList
                 transactions={sortedTransactions}
                 selectedMonth={selectedMonth}
@@ -170,26 +187,27 @@ function App() {
                 setEditingTransaction={setEditingTransaction}
                 onRequestDelete={onRequestDelete}
               />
+            </div>
+          </section>
 
-              <Budget
-                budget={currentBudget}
-                expenses={totalExpenses}
-                onSetBudget={(amount) => {
-                  setBudgets((prev) => ({
-                    ...prev,
-                    [budgetKey]: amount,
-                  }));
-                }}
-              />
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-1">
+              <OneLevelPieChart transactions={filteredTransactions} />
             </div>
 
-          </div>
+            <div className="lg:col-span-2">
+              <MonthlyBarChart
+                transactions={transactions}
+                selectedYear={selectedYear}
+              />
+            </div>
+          </section>
 
-          <MonthlyBarChart transactions={transactions} selectedYear={selectedYear} />
-
-          <footer className='self-center'>
-            Made by <a href='https://github.com/DanielGodoyGalindo/expense-tracker' className='cursor-pointer; text-indigo-600 dark:text-indigo-400 hover:underline font-bold' target='_blank'>Daniel Godoy</a>
-          </footer>
+          <section className="grid place-items-center">
+            <footer>
+              Made by <a href='https://github.com/DanielGodoyGalindo/expense-tracker' className='cursor-pointer; text-indigo-600 dark:text-indigo-400 hover:underline font-bold' target='_blank'>Daniel Godoy</a>
+            </footer>
+          </section>
 
           {transactionToDelete && (
             <Modal
@@ -204,10 +222,9 @@ function App() {
               cancelText="Cancel"
             />
           )}
-
-        </div>
+        </main>
       </div>
-    </div >
+    </div>
   );
 }
 

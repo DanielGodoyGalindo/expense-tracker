@@ -34,33 +34,37 @@ export default function OneLevelPieChart({ transactions }: Props) {
   const hasData = data.some((item) => item.value > 0);
 
   return hasData ? (
-    <PieChart
-      className="self-center -mt-24"
-      style={{
-        width: "100%",
-        height: "100%",
-        maxWidth: "600px",
-        maxHeight: "40vh",
-        aspectRatio: 1,
-      }}
-      responsive>
-      <Pie
-        data={data}
-        dataKey="value"
-        nameKey="name"
-        cx="50%"
-        cy="50%"
-        outerRadius="50%"
-        shape={MyCustomPie}>
-      </Pie>
-      <Tooltip />
-      <Legend
-        verticalAlign="bottom"
-        wrapperStyle={{
-          transform: "translateY(-48px)",
+    <div className="flex flex-col">
+
+      <p className="underline self-center text-lg text-shadow-md font-bold">Pie chart</p>
+      <PieChart
+        className="self-center -mt-12"
+        style={{
+          width: "100%",
+          height: "100%",
+          maxWidth: "600px",
+          maxHeight: "40vh",
+          aspectRatio: 1,
         }}
-      />
-    </PieChart>
+        responsive>
+        <Pie
+          data={data}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius="50%"
+          shape={MyCustomPie}>
+        </Pie>
+        <Tooltip />
+        <Legend
+          verticalAlign="bottom"
+          wrapperStyle={{
+            transform: "translateY(-48px)",
+          }}
+        />
+      </PieChart>
+    </div>
   ) : (
     <div className="flex flex-col items-center justify-center py-8 text-gray-500">
       <p className="text-4xl">📊</p>
