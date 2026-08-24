@@ -23,8 +23,7 @@ function Balance({ transactions, selectedMonth, selectedYear }: Props) {
     { name: "December", value: "12" },
   ];
 
-  const monthName =
-    months.find((month) => month.value === selectedMonth)?.name ?? selectedMonth;
+  const monthName = months.find((month) => month.value === selectedMonth)?.name ?? selectedMonth;
 
   const balance = transactions.reduce(
     (total, transaction) =>
@@ -34,26 +33,43 @@ function Balance({ transactions, selectedMonth, selectedYear }: Props) {
     0
   );
 
-  if (transactions.length === 0) {
-    return null;
-  }
-
   return (
     <div className="flex flex-col">
-      <p className="underline self-center text-lg text-shadow-md font-bold">Balance</p>
+      <p className="underline self-center text-lg text-shadow-md font-bold">
+        Balance
+      </p>
+
       <div
-        className={`place-self-center flex flex-col gap-1 border-4 rounded-xl p-2 ${balance < 0 ? "border-rose-500" : "border-emerald-500"} mt-3 text-md`}>
-        {transactions.length > 0 ? (
-          <>
-            <p>Your balance for {monthName} {selectedYear}:</p>
-            <p className="text-center font-bold">{balance} €</p>
-          </>
+        className={`place-self-center flex flex-col gap-1 border-4 rounded-xl p-3 mt-3 text-md ${
+          transactions.length === 0
+            ? "border-gray-400"
+            : balance < 0
+              ? "border-rose-500"
+              : "border-emerald-500"
+        }`}
+      >
+        <p className="text-center">
+          Balance for {monthName} {selectedYear}
+        </p>
+
+        {transactions.length === 0 ? (
+          <p className="text-center text-gray-500 dark:text-gray-400">
+            No transactions for this month.
+          </p>
         ) : (
-          <span>No transactions for this month.</span>
+          <p
+            className={`text-center font-bold text-xl ${
+              balance < 0
+                ? "text-rose-500"
+                : "text-emerald-500"
+            }`}
+          >
+            {balance} €
+          </p>
         )}
       </div>
     </div>
-  )
+  );
 }
 
 export default Balance;
