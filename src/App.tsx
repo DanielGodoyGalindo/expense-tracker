@@ -134,6 +134,12 @@ function App() {
             </p>
           </header>
 
+          <nav className="sticky top-0 z-40 text-lg flex justify-center gap-6 overflow-x-auto py-3 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-400 dark:border-gray-500">
+            <a href="#summary" className="hover:text-indigo-600 dark:hover:text-indigo-400">Summary</a>
+            <a href="#transactions" className="hover:text-indigo-600 dark:hover:text-indigo-400">Transactions</a>
+            <a href="#analytics" className="hover:text-indigo-600 dark:hover:text-indigo-400">Analytics</a>
+          </nav>
+
 
           {/* Success message when user does an action (create, update or delete a transaction)*/}
           {successMessage && (
@@ -148,60 +154,65 @@ function App() {
             </div>
           )}
 
-          <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Balance transactions={filteredTransactions} selectedMonth={selectedMonth} selectedYear={selectedYear} />
-            <Budget
-              budget={currentBudget}
-              expenses={totalExpenses}
-              onSetBudget={(amount) => {
-                setBudgets((prev) => ({
-                  ...prev,
-                  [budgetKey]: amount,
-                }));
-              }}
-            />
-          </section>
-
-          <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <TransactionForm
-              onAddTransaction={addTransaction}
-              editingTransaction={editingTransaction}
-              onUpdateTransaction={updateTransaction}
-              onCancelEdit={() => setEditingTransaction(null)}
-            />
-            <div className="lg:col-span-2">
-              <TransactionList
-                transactions={sortedTransactions}
-                selectedMonth={selectedMonth}
-                selectedYear={selectedYear}
-                selectedCategory={selectedCategory}
-                setSelectedMonth={setSelectedMonth}
-                setSelectedYear={setSelectedYear}
-                setSelectedCategory={setSelectedCategory}
-                setSearchTitle={setSearchTitle}
-                searchTitle={searchTitle}
-                setSortBy={setSortBy}
-                sortBy={sortBy}
-                setSortOrder={setSortOrder}
-                sortOrder={sortOrder}
-                setEditingTransaction={setEditingTransaction}
-                onRequestDelete={onRequestDelete}
+          <div className="max-w-6xl mx-auto px-4 py-8 space-y-24">
+            
+            <section id="summary" className="grid grid-cols-1 md:grid-cols-2 gap-6 scroll-mt-20">
+              <Balance transactions={filteredTransactions} selectedMonth={selectedMonth} selectedYear={selectedYear} />
+              <Budget
+                budget={currentBudget}
+                expenses={totalExpenses}
+                onSetBudget={(amount) => {
+                  setBudgets((prev) => ({
+                    ...prev,
+                    [budgetKey]: amount,
+                  }));
+                }}
               />
-            </div>
-          </section>
+            </section>
 
-          <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-1">
-              <OneLevelPieChart transactions={filteredTransactions} />
-            </div>
-
-            <div className="lg:col-span-2">
-              <MonthlyBarChart
-                transactions={transactions}
-                selectedYear={selectedYear}
+            <section id="transactions" className="grid grid-cols-1 lg:grid-cols-3 gap-8 scroll-mt-20">
+              <TransactionForm
+                onAddTransaction={addTransaction}
+                editingTransaction={editingTransaction}
+                onUpdateTransaction={updateTransaction}
+                onCancelEdit={() => setEditingTransaction(null)}
               />
-            </div>
-          </section>
+              <div className="lg:col-span-2">
+                <TransactionList
+                  transactions={sortedTransactions}
+                  selectedMonth={selectedMonth}
+                  selectedYear={selectedYear}
+                  selectedCategory={selectedCategory}
+                  setSelectedMonth={setSelectedMonth}
+                  setSelectedYear={setSelectedYear}
+                  setSelectedCategory={setSelectedCategory}
+                  setSearchTitle={setSearchTitle}
+                  searchTitle={searchTitle}
+                  setSortBy={setSortBy}
+                  sortBy={sortBy}
+                  setSortOrder={setSortOrder}
+                  sortOrder={sortOrder}
+                  setEditingTransaction={setEditingTransaction}
+                  onRequestDelete={onRequestDelete}
+                />
+              </div>
+            </section>
+
+            <section id="analytics" className="grid grid-cols-1 lg:grid-cols-3 gap-8 scroll-mt-20">
+              <div className="lg:col-span-1">
+                <OneLevelPieChart transactions={filteredTransactions} />
+              </div>
+
+              <div className="lg:col-span-2">
+                <MonthlyBarChart
+                  transactions={transactions}
+                  selectedYear={selectedYear}
+                />
+              </div>
+            </section>
+
+          </div>
+
 
           <section className="grid place-items-center">
             <footer>
