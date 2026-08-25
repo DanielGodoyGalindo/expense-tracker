@@ -54,7 +54,7 @@ function Balance({ transactions, selectedMonth, selectedYear }: Props) {
 
         {transactions.length === 0 ? (
           <p className="text-center text-gray-500 dark:text-gray-400">
-            No transactions for this month.
+            No transactions for this month
           </p>
         ) : (
           <p

@@ -78,16 +78,21 @@ function Budget({ budget, expenses, onSetBudget }: Props) {
         </div>
       ) : (
         <>
-          <div className="w-full bg-gray-200 rounded-full h-4">
-            <div
-              className={`${progressStyle} h-4 rounded-full transition-all`}
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-
-          <p className="text-center">
-            {expenses} € / {budget} €
-          </p>
+          {budget ? (
+            <>
+              <div className="w-full bg-gray-200 rounded-full h-4">
+                <div
+                  className={`${progressStyle} h-4 rounded-full transition-all`}
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <p className="text-center">
+                {expenses} € / {budget} €
+              </p>
+            </>
+          ) : (
+            <p className="text-center text-gray-500 dark:text-gray-400">No budget found for selected period</p>
+          )}
         </>
       )}
     </div>

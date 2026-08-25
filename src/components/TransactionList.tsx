@@ -145,7 +145,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
       {/* Transactions table */}
       {currentTransactions.length === 0 ? (
 
-        <p className="text-center text-gray-500">
+        <p className="text-center text-gray-500 dark:text-gray-400">
           No transactions found for this period
         </p>
 
