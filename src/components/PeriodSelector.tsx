@@ -23,49 +23,51 @@ function PeriodSelector({ selectedMonth, selectedYear, setSelectedMonth, setSele
     { name: "December", value: "12" },
   ];
 
-  const border_style = "border border-gray-300 rounded-sm px-2";
+  const border_style = "border border-gray-300 rounded-sm pl-1 pr-1 bg-white dark:bg-gray-700"
 
   return (
-    <div className="flex justify-center items-center gap-4">
+    <div className="flex flex-col justify-center items-center gap-4">
 
-      <div className="flex items-center gap-2">
-        <label htmlFor="month">Month</label>
+      <span className="font-bold text-indigo-700 dark:text-indigo-400">Select a period:</span>
+      <div className="flex gap-2">
 
-        <select
-          id="month"
-          className={border_style}
-          value={selectedMonth}
-          onChange={(e) => setSelectedMonth(e.target.value)}
-        >
-          {months.map((month) => (
-            <option key={month.value} value={month.value}>
-              {month.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <label htmlFor="year">Year</label>
-
-        <select
-          id="year"
-          className={border_style}
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(e.target.value)}
-        >
-          {years.length > 0 ? (
-            years.map((year) => (
-              <option key={year} value={year}>
-                {year}
+        <div className="flex items-center gap-2">
+          <label htmlFor="month">Month</label>
+          <select
+            id="month"
+            className={border_style}
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+          >
+            {months.map((month) => (
+              <option key={month.value} value={month.value}>
+                {month.name}
               </option>
-            ))
-          ) : (
-            <option value={selectedYear}>
-              {selectedYear}
-            </option>
-          )}
-        </select>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <label htmlFor="year">Year</label>
+          <select
+            id="year"
+            className={border_style}
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+          >
+            {years.length > 0 ? (
+              years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))
+            ) : (
+              <option value={selectedYear}>
+                {selectedYear}
+              </option>
+            )}
+          </select>
+        </div>
       </div>
 
     </div>
