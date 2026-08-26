@@ -7,11 +7,7 @@ import { exportTransactionsToCSV } from "../utils/csv";
 
 type Props = {
   transactions: Transaction[];
-  selectedMonth: string;
-  selectedYear: string;
   selectedCategory: Category;
-  setSelectedMonth: React.Dispatch<React.SetStateAction<string>>;
-  setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
   setEditingTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
   setSelectedCategory: React.Dispatch<React.SetStateAction<Category>>;
   searchTitle: string;
@@ -23,30 +19,9 @@ type Props = {
   onRequestDelete: (transaction: Transaction) => void;
 };
 
-function TransactionList({ transactions, selectedMonth, selectedYear, selectedCategory, setSelectedMonth, setSelectedYear, setEditingTransaction, setSelectedCategory, searchTitle, setSearchTitle, sortBy, setSortBy, sortOrder, setSortOrder, onRequestDelete }: Props) {
+function TransactionList({ transactions, selectedCategory, setEditingTransaction, setSelectedCategory, searchTitle, setSearchTitle, sortBy, setSortBy, sortOrder, setSortOrder, onRequestDelete }: Props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
-  const months = [
-    { name: "January", value: "01" },
-    { name: "February", value: "02" },
-    { name: "March", value: "03" },
-    { name: "April", value: "04" },
-    { name: "May", value: "05" },
-    { name: "June", value: "06" },
-    { name: "July", value: "07" },
-    { name: "August", value: "08" },
-    { name: "September", value: "09" },
-    { name: "October", value: "10" },
-    { name: "November", value: "11" },
-    { name: "December", value: "12" },
-  ];
-
-  useEffect(() => {
-    if (transactions.length > 0 && !years.includes(selectedYear)) {
-      setSelectedYear(years[0]);
-    }
-  }, [transactions]);
 
   const filteredTransactions = transactions;
 
@@ -62,7 +37,7 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedMonth, selectedYear, selectedCategory]);
+  }, [selectedCategory]);
 
   const border_style = "border border-gray-300 rounded-sm pl-1 pr-1 bg-white dark:bg-gray-700"
 
@@ -90,34 +65,6 @@ function TransactionList({ transactions, selectedMonth, selectedYear, selectedCa
             {categories.map((category) =>
               <option key={category} value={category}>
                 {category}
-              </option>
-            )}
-          </select>
-        </div>
-
-        <div className="flex gap-2">
-          <span>Month</span>
-          <select className={border_style} value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
-            {months.map((month) => (
-              <option key={month.value} value={month.value}>
-                {month.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex gap-2">
-          <span>Year</span>
-          <select className={border_style} value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
-            {years.length > 0 ? (
-              years.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))
-            ) : (
-              <option value={String(new Date().getFullYear())}>
-                {new Date().getFullYear()}
               </option>
             )}
           </select>

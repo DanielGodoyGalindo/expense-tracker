@@ -10,6 +10,7 @@ import Budget from './components/Budget';
 import { filterTransactions, sortTransactions } from './utils/transactionUtils'
 import type { Category, SortBy, SortOrder } from "./types/filters";
 import MonthlyBarChart from './components/MonthlyBarChart';
+import PeriodSelector from './components/PeriodSelector';
 
 function App() {
 
@@ -109,6 +110,8 @@ function App() {
   const budgetKey = `${selectedYear}-${selectedMonth}`;
   const currentBudget = budgets[budgetKey] ?? 0;
 
+  const years = [...new Set(transactions.map((t) => t.date.slice(0, 4)))];
+
   return (
     <div className={darkMode ? "dark" : ""}>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
@@ -155,7 +158,15 @@ function App() {
           )}
 
           <div className="max-w-6xl mx-auto px-4 py-8 space-y-24">
-            
+
+            <PeriodSelector
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+              setSelectedMonth={setSelectedMonth}
+              setSelectedYear={setSelectedYear}
+              years={years}
+            />
+
             <section id="summary" className="grid grid-cols-1 md:grid-cols-2 gap-6 scroll-mt-20">
               <Balance transactions={filteredTransactions} selectedMonth={selectedMonth} selectedYear={selectedYear} />
               <Budget
@@ -180,11 +191,7 @@ function App() {
               <div className="lg:col-span-2">
                 <TransactionList
                   transactions={sortedTransactions}
-                  selectedMonth={selectedMonth}
-                  selectedYear={selectedYear}
                   selectedCategory={selectedCategory}
-                  setSelectedMonth={setSelectedMonth}
-                  setSelectedYear={setSelectedYear}
                   setSelectedCategory={setSelectedCategory}
                   setSearchTitle={setSearchTitle}
                   searchTitle={searchTitle}
